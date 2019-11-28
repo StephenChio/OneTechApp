@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="add-friend-page"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="background: #f4f5f8;">设置名字</ion-title>
+        <ion-buttons slot="secondary" style="position: absolute;right: 0rem;">
+            <ion-button (click)="updateName()">完成
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+    <ion-item style="--border-width:0">
+        <ion-input [(ngModel)]="userName"></ion-input>
+    </ion-item>
+</ion-content>

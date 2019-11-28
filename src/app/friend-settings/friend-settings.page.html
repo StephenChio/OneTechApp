@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab4"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">资料设置</ion-title>
+  </ion-toolbar>
+</ion-header>
+<style>
+  ion-list {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
+  }
+
+  .toggle {
+    position: absolute;
+    right: 0rem;
+  }
+</style>
+<ion-content color="light">
+  <ion-list lines="none">
+    <ion-item href="#">
+      <ion-label>设置备注和标签</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="album">
+      <ion-label>把他推荐给朋友</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>设为星标朋友</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-label>朋友圈和视频动态</ion-label>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>不让他看</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>不看他</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>加入黑名单</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+    <ion-item href="settings">
+      <ion-label>投诉</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item (click)="deleteFriend()">
+      <ion-label style="text-align: center;" color="danger">删除</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">{{fUserName}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="chatInfo()">
+        <ion-icon slot="icon-only" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<style>
+  /* .box {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  } 
+  .chat-sender {
+    clear: both;
+    font-size: 80%;
+  }
+
+  /* .context{
+    align-self:flex-start;
+  }
+  .rightContext{
+    position: absolute;
+    right: 3.5rem;
+    align-self:flex-start;
+  } 
+  .rightImg {
+    position: absolute;
+    right: 0rem;
+  }
+
+  .msgLeft {
+    margin-left: 0.5rem;
+    width: 17rem;
+    line-height: 80px;
+    border: 1px solid lightgreen; 
+    position: absolute;
+    padding-left: 0.75rem;
+    border-radius: 10px;
+    /* filter: drop-shadow(0 0 2px #999); 
+    background: #fff;
+  }
+
+  .msgLeft::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 44px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right:10px solid lightgreen; 
+  } 
+
+  .msgLeft::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 40%;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 10px solid #fff;
+  }
+
+  .msgRight {
+    margin-left: 0.5rem;
+    width: 17rem;
+    right: 5rem;
+    line-height: 80px;
+    border: 1px solid lightgreen; 
+    position: absolute;
+    padding-left: 0.75rem;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 2px #999);
+    background: RGB(146, 230, 73);
+  }
+
+   .msgRight::before {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 44px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right:10px solid lightgreen; 
+  } 
+  
+
+  .msgRight::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 40%;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid RGB(146, 230, 73);
+  } 
+  */
+</style>
+<ion-content color="light">
+  <div *ngFor="let message of chats">
+    <!-- 判断消息是发送 -->
+    <div *ngIf="wechatId !== message.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
+      <div class="chat-sender">
+        <div><img style = "border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
+        <div>
+          <div class="chat-left_triangle"></div>
+          <span>{{message.msg}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 判断消息是发送 -->
+    <div *ngIf="wechatId === message.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
+      <div class="chat-receiver">
+        <div><img style = "border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
+        <div>
+          <div class="chat-right_triangle"></div>
+          <span>{{message.msg}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-item>
+    <ion-input [(ngModel)]="msg1" placeholder="Send a message..." clearInput="true"></ion-input>
+    <ion-button (click)="sendMsg()">
+      <ion-icon slot="icon-only" name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-footer>

@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar id="addFriendTitle">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">添加朋友</ion-title>
+  </ion-toolbar>
+  <ion-searchbar (ionFocus)="hide()" (ionCancel)="show()" style="background: #f4f5f8;"
+    placeholder="微信号/手机号" showCancelButton="focus" cancelButtonText = "取消" (ionChange)="ionChange()"
+    [(ngModel)]="searchContext"></ion-searchbar>
+</ion-header>
+<ion-content color="light">
+    <ion-item *ngIf="searchContext && isExit" (click)="searchFriend()">
+        <ion-icon style="width: 3rem;height: 3rem; color: green;" name="search"></ion-icon>
+        <ion-label style="display: contents;">搜索:  <p style="color: green;">{{searchContext}}</p>
+        </ion-label>
+    </ion-item>
+    <ion-item *ngIf="!isExit">
+        <ion-label style="height: 5rem;"><p style="font-size: 16px;text-align: center;margin-top: 1.5rem;color: grey;">该用户不存在</p></ion-label>
+    </ion-item>
+  <!-- <ion-list>
+    <ion-item *ngFor="let item of Array" [routerLink]="['/friend-card']"
+      [queryParams]="{fWechatId:item.wechatId,fUserName:item.userName,imgPath:item.imgPath}">
+      <ion-avatar slot="start">
+        <img src="./assets/{{item.imgPath}}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.userName}}</h2>
+        <p>{{item.sign}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
+</ion-content>

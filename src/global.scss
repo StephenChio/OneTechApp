@@ -24,3 +24,17 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.popover-arrow{
+    right: 1rem !important;
+    display:flex !important;
+    top:3.5rem !important;
+    left:auto !important;
+  }
+.popover-content{
+    top:4rem !important;
+    right:0.25rem !important;
+    transform-origin: right top !important;
+    left:auto !important;
+    width: 10rem !important;
+  }

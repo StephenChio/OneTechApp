@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="background: #f4f5f8;">朋友验证</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="sendVerification()">发送
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+    <ion-item style="--border-width:0">
+        <ion-label position="floating">你需要发送验证申请,等对方通过</ion-label>
+        <ion-input [(ngModel)]="verificationMsg"></ion-input>
+    </ion-item>
+</ion-content>

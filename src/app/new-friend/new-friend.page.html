@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar id="addFriendTitle">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">新的朋友</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/add-friend-page']">
+        <ion-icon slot="icon-only" name="person-add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <ion-list>
+    <ion-item *ngFor="let item of newFriend" [routerLink]="['/friend-card']"
+      [queryParams]="{fWechatId:item.wechatId,imgPath:item.imgPath,fUserName:item.userName,type:'acceptConfirm'}">
+      <ion-avatar slot="start">
+        <img style = "border-radius: 5px;" src="{{baseUrl}}/{{item.imgPath}}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.userName}}</h2>
+        <p>{{item.verificationMsg}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,21 @@
+<style>
+  p {
+    font-size: 30px;
+    margin-left: 1rem;
+    margin-top: 10rem;
+  }
+</style>
+<ion-content>
+  <p>手机号登陆</p>
+  <div>
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item style="--border-width:0">
+        <ion-label position="floating">请输入手机号</ion-label>
+        <ion-input [(ngModel)]="phone"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="ion-padding" style="margin-top: 2rem;">
+      <ion-button expand="block" class="ion-no-margin" color="success" (click)="login()">下一步</ion-button>
+    </div>
+  </div>
+</ion-content>

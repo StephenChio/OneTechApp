@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button style="color:white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #222428; color:white;">个人头像</ion-title>
+    <ion-buttons slot="secondary" style="position: absolute;right: 0rem;"
+      (click)="presentActionSheet()">
+      <ion-button>
+        <ion-icon slot="icon-only" style="color:white;" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<style>
+</style>
+<ion-content color="dark">
+  <div style="margin-top: 20%;">
+    <img src="{{imgPath}}">
+  </div>
+</ion-content>

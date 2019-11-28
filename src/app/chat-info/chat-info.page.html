@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">聊天详情</ion-title>
+  </ion-toolbar>
+</ion-header>
+<style>
+  ion-list {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
+  }
+
+  .toggle {
+    position: absolute;
+    right: 0rem;
+  }
+</style>
+<ion-content color="light">
+  <ion-list lines="none">
+    <ion-item>
+      <div style="width: 25%">
+        <img style=" border-radius: 5px;" src="{{imgPath}}">
+        <p style="margin: 0; font-size: 8px; text-align: center;">{{fUserName}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="#">
+      <ion-label>查找聊天内容</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>消息免打扰</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>置顶聊天</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>强提醒</ion-label>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="settings">
+      <ion-label>设置当前聊天背景</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="settings">
+      <ion-label>清空聊天记录</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="settings">
+      <ion-label>投诉</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

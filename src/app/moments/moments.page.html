@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar style="opacity: 0.4;position: absolute;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab3"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="secondary" style="position: absolute;right: 0rem;" (click)="presentActionSheet()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="camera"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<style>
+  .titlePicture {
+    width: 100%;
+    height: 50%;
+  }
+
+  .box {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+
+  .head {
+    width: 20%;
+    position: absolute;
+    left: 75%;
+    top: 45%;
+    border-radius: 5px;
+  }
+
+  .fhead {
+    width: 10%;
+    align-self: flex-start;
+    border-radius: 5px;
+  }
+
+  .time {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .item-native {
+    padding: 0 !important;
+  }
+
+  .context {
+    margin-left: 0.75rem;
+  }
+</style>
+<ion-content>
+  <img class="titlePicture" src="/assets/007r9bAUgy1g7olsfmhdij30u00u0442.jpg">
+  <img class="head" src="{{imgPath}}">
+  <div style="position: absolute; top: 60%;">
+    <ion-list *ngFor="let moments of Moments">
+      <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
+      <ion-item class="box">
+        <img class="fhead" src="{{baseUrl}}/{{moments.imgPath}}">
+        <div class="context">
+          <ion-card-subtitle>{{moments.userName}}</ion-card-subtitle>
+          <ion-card-subtitle>
+            {{moments.text}}
+          </ion-card-subtitle>
+          <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
+            <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i" style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
+              <img style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+            </div>
+          </div>
+          <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
+        </div>
+      </ion-item>
+    </div>
+    </ion-list>
+    <!-- <div *ngFor="let moments of Moments">
+      <div *ngIf="wechatId !== moments.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
+        <div class="chat-sender">
+          <div><img src="assets/{{message.imgPath}}"></div>
+          <div>
+            <div class="chat-left_triangle"></div>
+            <span>{{message.msg}}</span>
+          </div>
+        </div>
+      </div>-->
+  </div>
+</ion-content>

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab4"></ion-back-button>
+    </ion-buttons>
+    <ion-title>个人信息</ion-title>
+  </ion-toolbar>
+</ion-header>
+<style>
+  ion-list {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
+  }
+
+  .rightText {
+    text-align: right;
+  }
+</style>
+<ion-content color="light">
+  <ion-list lines="none">
+    <ion-item [routerLink]="['/update-picture']">
+      <ion-label>头像</ion-label>
+      <img style="margin: 0.5rem; border-radius: 5px; width:20%" src="{{imgPath}}">
+    </ion-item>
+    <ion-item [routerLink]="['/set-name-page']">
+      <ion-label>名字</ion-label>
+      <ion-label class="rightText">{{userName}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>微信号</ion-label>
+      <ion-label class="rightText">{{wechatId}}</ion-label>
+    </ion-item>
+    <ion-item href="expression">
+      <ion-label>我的二维码</ion-label>
+    </ion-item>
+    <ion-item href="expression">
+      <ion-label>更多</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none">
+    <ion-item href="settings">
+      <ion-label>我的地址</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
