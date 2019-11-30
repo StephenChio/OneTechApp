@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../websocket/websocket';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { PopComponentComponent } from '../pop-component/pop-component.component';
 import { globalVar } from 'src/globalVar';
+import { Common } from '../Common/common';
 
 @Component({
   selector: 'app-tab1',
@@ -12,54 +13,74 @@ import { globalVar } from 'src/globalVar';
 })
 export class Tab1Page implements OnInit {
 
-  constructor(private globalVar:globalVar,private popoverController: PopoverController, private router: Router, private ws: WebSocketService) { }
+  constructor(private alertController:AlertController,private common: Common, private globalVar: globalVar, private popoverController: PopoverController, private router: Router, private ws: WebSocketService) { }
   wechatId: any;
   chatsGroup: any;
   websocket = null;
-  baseUrl:string;
+  baseUrl: string;
+  currentPopover = null;
   ngOnInit() {
     var _this = this
     this.baseUrl = globalVar.baseUrl;
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
-    const url = "/websocket/socketServer?wechatId=tab1" + localStorage.getItem("wechatId")
+    const url = "/websocket/socketServer?WS_NAME=tab1" + localStorage.getItem("wechatId")
     this.websocket = this.ws.createObservableSocket(url)
     this.websocket.onmessage = function (event: any) {
       var resBody = JSON.parse(event.data)
-      var chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + resBody.wechatId))
-      var body = { wechatId: resBody.wechatId, imgPath: resBody.imgPath, msg: resBody.msg }
-      _this.chatsGroup = JSON.parse(localStorage.getItem(resBody.fWechatId + "chats"))
-      if (chats == null) {
-        chats = []
-        if (_this.chatsGroup == null) {
-          _this.chatsGroup = []
+      console.log(resBody);
+      if (resBody == "1001") {
+        _this.quit("该账号在别地登陆,如非本人操作,请检查账号或咨询客服");
+      } else {
+        var chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + resBody.wechatId))
+        var body = { wechatId: resBody.wechatId, imgPath: resBody.imgPath, msg: resBody.msg }
+        _this.chatsGroup = JSON.parse(localStorage.getItem(resBody.fWechatId + "chats"))
+        if (chats == null) {
+          chats = []
+          if (_this.chatsGroup == null) {
+            _this.chatsGroup = []
+          }
+          _this.chatsGroup.push({ wechatId: resBody.wechatId, fUserName: resBody.userName, lastMsg: resBody.msg, msgNum: 1, imgPath: resBody.imgPath })
+          chats.push(body);
+          localStorage.setItem(localStorage.getItem("wechatId") + resBody.wechatId, JSON.stringify(chats))
         }
-        _this.chatsGroup.push({ wechatId: resBody.wechatId, fUserName: resBody.userName, lastMsg: resBody.msg, msgNum: 1, imgPath: resBody.imgPath })
-        chats.push(body);
-        localStorage.setItem(localStorage.getItem("wechatId") + resBody.wechatId, JSON.stringify(chats))
-      }
-      else {
-        // console.log(resBody.wechatId)
-        chats.push(body);
-        localStorage.setItem(localStorage.getItem("wechatId") + resBody.wechatId, JSON.stringify(chats))
-        var flag = false
-        for (var p in _this.chatsGroup) {
-          if (_this.chatsGroup[p].wechatId == resBody.wechatId) {
-            _this.chatsGroup[p].lastMsg = resBody.msg
-            if (_this.chatsGroup[p].msgNum == null) {
-              _this.chatsGroup[p].msgNum = 1
+        else {
+          // console.log(resBody.wechatId)
+          chats.push(body);
+          localStorage.setItem(localStorage.getItem("wechatId") + resBody.wechatId, JSON.stringify(chats))
+          var flag = false
+          for (var p in _this.chatsGroup) {
+            if (_this.chatsGroup[p].wechatId == resBody.wechatId) {
+              _this.chatsGroup[p].lastMsg = resBody.msg
+              if (_this.chatsGroup[p].msgNum == null) {
+                _this.chatsGroup[p].msgNum = 1
+              }
+              else {
+                _this.chatsGroup[p].msgNum = _this.chatsGroup[p].msgNum + 1
+              }
+              flag = true
             }
-            else {
-              _this.chatsGroup[p].msgNum = _this.chatsGroup[p].msgNum + 1
-            }
-            flag = true
+          }
+          if (!flag) {
+            _this.chatsGroup.push({ wechatId: resBody.wechatId, fUserName: resBody.userName, lastMsg: resBody.msg, msgNum: 1, imgPath: resBody.imgPath })
           }
         }
-        if (!flag) {
-          _this.chatsGroup.push({ wechatId: resBody.wechatId, fUserName: resBody.userName, lastMsg: resBody.msg, msgNum: 1, imgPath: resBody.imgPath })
-        }
+        localStorage.setItem(resBody.fWechatId + "chats", JSON.stringify(_this.chatsGroup))
       }
-      localStorage.setItem(resBody.fWechatId + "chats", JSON.stringify(_this.chatsGroup))
     }
+  }
+  async quit(msg:any){
+    const alert = await this.alertController.create({
+      header: '确认',
+      message: msg,
+      buttons: [{
+        text:'OK', 
+        handler: (blah) => {
+          localStorage.removeItem("user_token");
+          window.location.href = "login"
+      }
+    }]
+    });
+    await alert.present();
   }
   hide() {
     var title = document.getElementById("tab1Title");
@@ -97,8 +118,12 @@ export class Tab1Page implements OnInit {
       event: ev,
       translucent: true
     });
+    this.currentPopover = popover;
     return await popover.present();
   }
   ionViewWillLeave() {
+    if (this.currentPopover) {
+      this.currentPopover.dismiss().then(() => { this.currentPopover = null; });
+    }
   }
 }

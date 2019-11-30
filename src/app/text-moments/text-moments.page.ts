@@ -20,9 +20,7 @@ export class TextMomentsPage implements OnInit {
     this.activatedRoute.queryParams.subscribe((data: any) => {
       if(data.type == "picture"){
         this.title = null;
-        if(this.pictureMoments==null){
-          this.choosePicture();
-        }
+        this.choosePicture();
       }
     });
   }

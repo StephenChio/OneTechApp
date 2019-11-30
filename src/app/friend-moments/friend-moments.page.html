@@ -1,0 +1,65 @@
+<ion-header>
+    <ion-toolbar style="opacity: 0.4;position: absolute;">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <style>
+    .titlePicture {
+      width: 100%;
+      height: 50%;
+    }
+  
+    .box {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 0.5rem;
+      padding: 0;
+    }
+  
+    .head {
+      width: 20%;
+      position: absolute;
+      left: 75%;
+      top: 45%;
+      border-radius: 5px;
+    }
+  
+    .time {
+      opacity: 0.7;
+    }
+  
+    .item-native {
+      padding: 0 !important;
+    }
+  
+    .context {
+      margin-left: 0.75rem;
+      display: flex;
+    }
+  </style>
+  <ion-content>
+    <img class="titlePicture" (click)="selectBackground()" src="{{backgroundImg}}">
+    <img class="head" src="{{imgPath}}">
+    <p style="position: absolute;right: 7rem;top: 22.5rem;color: white;">{{userName}}</p>
+    <div style="position: absolute; top: 60%;">
+      <ion-list *ngFor="let moments of Moments" lines="none">
+        <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
+        <ion-item class="box">
+          <ion-card-subtitle class="time">{{moments.createTime.slice(5,10)}}</ion-card-subtitle>   
+          <div class="context">
+            <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap;width:80px;height:80px;">
+              <div *ngFor="let pictureImgPath of moments.pictureImgPath.slice(0,4);index as i" style="display:inline-block;width:40px;height:40px;">
+                <img style="width:40px;height:40px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+              </div>
+            </div>
+            <ion-card-subtitle style="margin-left: 0.5rem;">
+                {{moments.text}}
+            </ion-card-subtitle>
+          </div>
+        </ion-item>
+      </div>
+      </ion-list>
+    </div>
+  </ion-content>

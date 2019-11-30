@@ -18,12 +18,26 @@ export class MomentsPage implements OnInit {
   imgPath: string;
   Moments:any;
   baseUrl:string;
+  backgroundImg:string;
   ngOnInit() {
     this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
+    this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
+    this.getMoments();
+  }
+  showInfo(wechatId:any,userName:any,imgPath:any){
+    this.router.navigate(['/friend-card'],{
+      queryParams:{
+        wechatId:wechatId,
+        userName:userName,
+        imgPath:imgPath,
+        type:"sendMsg"
+      }
+    })
+  }
+  getMoments(){
     let path = globalVar.baseUrl+"/moments/getMoments"
     this.baseUrl = globalVar.baseUrl;
     const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
-
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -34,7 +48,60 @@ export class MomentsPage implements OnInit {
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
-        });
+      });
+  }
+  updateBackgroundImg(backgroundImg:any){
+    let path = globalVar.baseUrl+"/userInfo/updateBackgroundImg"
+    this.baseUrl = globalVar.baseUrl;
+    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
+    .set("backgroundImg",backgroundImg)
+
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        this.common.presentAlert(data["respMsg"])
+        this.backgroundImg = globalVar.baseUrl+"/"+data["data"].backgroundImg;
+        localStorage.setItem("backgroundImg",data["data"].backgroundImg)
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+      });
+  }
+  async selectBackground(){
+    const actionSheet = await this.actionSheetController.create({
+      // header: 'Albums',
+      buttons: [{
+      text: '从手机相册选择',
+      // icon: 'share',
+      handler: () => {
+        const option = {
+          maximumImagesCount: 1,	// 可选择的图片数量默认 15，1为单选
+          // width : 400  ,		// 图片宽
+          // height : 500 ,		//图片高
+          quality: 100,		//图片质量，质量越高图片越大,请根据实际情况选择
+          outputType: 1
+          /** 文件输出类型，你可以选择图片URL，或者base64的文件编码
+          这里建议选择文件编码  0  ：文件地址  1：图片base64编码*/
+        }
+  
+        this.imagePicker.getPictures(option).then((results) => {
+          /**这里results返回的是一个数组，可以通过  results.pop()返回最后一个值，shift()返回第一个值，如果你只允许选择一个图片的话
+          ，两者都是可以的，为了程序健壮性，这里建议你对results的长度进行判断处理。*/
+          this.updateBackgroundImg(results)
+        }, (err) => { });
+        }
+    }, {
+      text: '取消',
+      // icon: 'close',
+      role: 'cancel',
+      handler: () => {
+        console.log('Cancel clicked');
+      }
+    }]
+  })
+  await actionSheet.present();
   }
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({

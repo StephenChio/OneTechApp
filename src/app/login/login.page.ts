@@ -37,6 +37,7 @@ export class LoginPage implements OnInit {
             storage.setItem("userName", data["userName"]);
             storage.setItem("wechatId", data["wechatId"]);
             storage.setItem("imgPath", data["imgPath"]);
+            storage.setItem("backgroundImg", data["backgroundImg"]);
             // console.log(data);
             window.location.href = "/"
           }

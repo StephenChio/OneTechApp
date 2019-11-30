@@ -14,7 +14,7 @@
 <ion-content color="light">
   <ion-list>
     <ion-item *ngFor="let item of newFriend" [routerLink]="['/friend-card']"
-      [queryParams]="{fWechatId:item.wechatId,imgPath:item.imgPath,fUserName:item.userName,type:'acceptConfirm'}">
+      [queryParams]="{wechatId:item.wechatId,imgPath:item.imgPath,userName:item.userName,type:'acceptConfirm'}">
       <ion-avatar slot="start">
         <img style = "border-radius: 5px;" src="{{baseUrl}}/{{item.imgPath}}">
       </ion-avatar>
