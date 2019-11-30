@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../websocket/websocket';
 import { PopoverController, AlertController } from '@ionic/angular';
-import { PopComponentComponent } from '../pop-component/pop-component.component';
 import { globalVar } from 'src/globalVar';
 import { Common } from '../Common/common';
-
+import { Popover } from '../Common/popover';
+import { PopComponentComponent } from '../pop-component/pop-component.component';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -13,7 +13,7 @@ import { Common } from '../Common/common';
 })
 export class Tab1Page implements OnInit {
 
-  constructor(private alertController:AlertController,private common: Common, private globalVar: globalVar, private popoverController: PopoverController, private router: Router, private ws: WebSocketService) { }
+  constructor(private popor:Popover,private alertController: AlertController, private common: Common, private globalVar: globalVar, private router: Router, private ws: WebSocketService) { }
   wechatId: any;
   chatsGroup: any;
   websocket = null;
@@ -68,17 +68,17 @@ export class Tab1Page implements OnInit {
       }
     }
   }
-  async quit(msg:any){
+  async quit(msg: any) {
     const alert = await this.alertController.create({
       header: '确认',
       message: msg,
       buttons: [{
-        text:'OK', 
+        text: 'OK',
         handler: (blah) => {
           localStorage.removeItem("user_token");
           window.location.href = "login"
-      }
-    }]
+        }
+      }]
     });
     await alert.present();
   }
@@ -112,18 +112,10 @@ export class Tab1Page implements OnInit {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
     console.log(this.chatsGroup)
   }
-  async presentPopover(ev: any) {
-    const popover = await this.popoverController.create({
-      component: PopComponentComponent,
-      event: ev,
-      translucent: true
-    });
-    this.currentPopover = popover;
-    return await popover.present();
+  presentPopover() {
+    this.popor.presentPopover(PopComponentComponent);
   }
   ionViewWillLeave() {
-    if (this.currentPopover) {
-      this.currentPopover.dismiss().then(() => { this.currentPopover = null; });
-    }
+    
   }
 }
