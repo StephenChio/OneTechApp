@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { Common } from '../Common/common';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -14,7 +14,7 @@ import { globalVar } from 'src/globalVar';
 })
 export class MomentsPage implements OnInit {
 
-  constructor(private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
+  constructor(private activatedRoute:ActivatedRoute,private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
   imgPath: string;
   Moments:any;
   baseUrl:string;
@@ -22,7 +22,17 @@ export class MomentsPage implements OnInit {
   ngOnInit() {
     this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
     this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
+    this.activatedRoute.queryParams.subscribe((data: any) => {
+      this.getMoments();
+    })
     this.getMoments();
+  }
+  doRefresh(event) {
+    this.getMoments();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
   }
   showInfo(wechatId:any,userName:any,imgPath:any){
     this.router.navigate(['/friend-card'],{

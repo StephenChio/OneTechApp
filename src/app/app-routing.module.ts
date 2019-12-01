@@ -28,7 +28,9 @@ const routes: Routes = [
   { path: 'text-moments', loadChildren: './text-moments/text-moments.module#TextMomentsPageModule' },
   { path: 'chat-info', loadChildren: './chat-info/chat-info.module#ChatInfoPageModule' },
   { path: 'popover-page', loadChildren: './popover-page/popover-page.module#PopoverPagePageModule' },
-  { path: 'friend-moments', loadChildren: './friend-moments/friend-moments.module#FriendMomentsPageModule' }
+  { path: 'friend-moments', loadChildren: './friend-moments/friend-moments.module#FriendMomentsPageModule' },
+  { path: 'verifi-page', loadChildren: './verifi-page/verifi-page.module#VerifiPagePageModule' },
+  { path: 'find-pass-page', loadChildren: './find-pass-page/find-pass-page.module#FindPassPagePageModule' }
 ];
 @NgModule({
   imports: [

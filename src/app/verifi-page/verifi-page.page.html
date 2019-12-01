@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<style>
+  p {
+    font-size: 30px;
+    margin-left: 1rem;
+    margin-top: 10rem;
+  }
+</style>
+<ion-content>
+  <p>+86 {{phone}}</p>
+  <div>
+    <ion-list *ngIf="useVerifiCode" lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item style="--border-width:0">
+        <ion-label position="floating" style="width: fit-content;">请输入验证码</ion-label>
+        <ion-input style="width:16rem;" [(ngModel)]="verifiCode"></ion-input>
+        <ion-button expand="block" [disabled]="disabledClick"
+          style="position: absolute;right: 1rem;top: 1.5rem;height: 2rem;" color="success" (click)="getVerifiCode()">
+          {{paracont}}</ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="usePassword" lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item style="--border-width:0">
+          <ion-label style="font-size: 17px;width: 6rem;">密码</ion-label>
+          <ion-input type = "password" placeholder="请填写密码" style="width:16rem;" [(ngModel)]="password"></ion-input>
+        </ion-item>
+      </ion-list>
+
+    <ion-card-subtitle style="font-size: 17px;top: 0.5rem;left: 1rem;" color="primary" (click)="changeVerifiWay()">
+      切换验证方式</ion-card-subtitle>
+    <div class="ion-padding" style="margin-top: 2rem;">
+      <ion-button expand="block" class="ion-no-margin" color="success" (click)="login()">登陆</ion-button>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <div style="display: flex;align-items: center;justify-content: center;">
+    <ion-card-subtitle style = "font-size: 15px;margin: 0.5rem;" color="primary" (click)="findPassword()">
+      找回密码</ion-card-subtitle>
+    <ion-card-subtitle style = "font-size: 15px;">
+      |
+    </ion-card-subtitle>
+    <ion-card-subtitle style = "font-size: 15px;margin: 0.5rem;" color="primary" (click)="emergencyFreeze()">
+      紧急冻结
+    </ion-card-subtitle>
+    <ion-card-subtitle style = "font-size: 15px;">
+      |
+    </ion-card-subtitle>
+    <ion-card-subtitle style = "font-size: 15px;margin: 0.5rem;" color="primary" (click)="getMoreOptions()">
+      更多选项
+    </ion-card-subtitle>
+  </div>
+</ion-footer>

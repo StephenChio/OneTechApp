@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Common } from '../Common/common';
 import { globalVar } from 'src/globalVar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
@@ -12,7 +12,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 })
 export class TextMomentsPage implements OnInit {
 
-  constructor(private imagePicker:ImagePicker, private activatedRoute:ActivatedRoute,private globalVar:globalVar,private http: HttpClient, private common: Common) { }
+  constructor(private router:Router,private imagePicker:ImagePicker, private activatedRoute:ActivatedRoute,private globalVar:globalVar,private http: HttpClient, private common: Common) { }
   text:string;
   pictureMoments = null;
   title = "发表文字"
@@ -54,6 +54,7 @@ export class TextMomentsPage implements OnInit {
       this.http.post(path, body, httpOptions)
       .subscribe(data => {
         this.common.presentAlert(data["respMsg"])
+        this.router.navigate(['/moments'])
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

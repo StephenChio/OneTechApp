@@ -52,27 +52,33 @@
   }
 </style>
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <img class="titlePicture" (click)="selectBackground()" src="{{backgroundImg}}">
   <img class="head" src="{{imgPath}}">
   <div style="position: absolute; top: 60%;">
     <ion-list *ngFor="let moments of Moments">
       <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
-      <ion-item class="box">
-        <img class="fhead" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)" src="{{baseUrl}}/{{moments.imgPath}}">
-        <div class="context">
-          <ion-card-subtitle color = "primary" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)">{{moments.userName}}</ion-card-subtitle>
-          <ion-card-subtitle>
-            {{moments.text}}
-          </ion-card-subtitle>
-          <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
-            <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i" style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
-              <img style="width:90px;height:90px;object-fit: cover;"src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+        <ion-item class="box">
+          <img class="fhead" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)"
+            src="{{baseUrl}}/{{moments.imgPath}}">
+          <div class="context">
+            <ion-card-subtitle color="primary" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)">
+              {{moments.userName}}</ion-card-subtitle>
+            <ion-card-subtitle>
+              {{moments.text}}
+            </ion-card-subtitle>
+            <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
+              <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
+                style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
+                <img style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+              </div>
             </div>
+            <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
           </div>
-          <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
-        </div>
-      </ion-item>
-    </div>
+        </ion-item>
+      </div>
     </ion-list>
     <!-- <div *ngFor="let moments of Moments">
       <div *ngIf="wechatId !== moments.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
