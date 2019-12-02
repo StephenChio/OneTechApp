@@ -108,10 +108,6 @@ export class Tab1Page implements OnInit {
         queryParams: { imgPath: imgPath }
       });
   }
-  ionViewWillEnter() {
-    this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
-    console.log(this.chatsGroup)
-  }
   presentPopover() {
     this.popor.presentPopover(PopComponentComponent);
   }
