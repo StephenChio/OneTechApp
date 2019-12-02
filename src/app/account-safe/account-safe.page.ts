@@ -14,5 +14,4 @@ export class AccountSafePage implements OnInit {
     this.wechatId = localStorage.getItem("wechatId")
     this.phone = localStorage.getItem("phone")
   }
-
 }

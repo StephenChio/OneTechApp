@@ -16,7 +16,7 @@ export class ChatPagePage implements OnInit {
   fUserName: any;
   wechatId: any;
   fWechatId: any;
-  msg1: string;
+  msg: string;
   imgPath: any;
   websocket = null;
   chats = []
@@ -75,7 +75,7 @@ export class ChatPagePage implements OnInit {
     this.websocket.close();
   }
   sendMsg() {
-    if (this.msg1 == null || this.msg1 == '') {
+    if (this.msg == null || this.msg == '') {
       return;
     }
     else {
@@ -83,22 +83,22 @@ export class ChatPagePage implements OnInit {
         to: "chatPage" + "#" + "tab1",
         wechatId: this.wechatId,
         userName: localStorage.getItem("userName"),
-        msg: this.msg1,
+        msg: this.msg,
         fWechatId: this.fWechatId,
         imgPath: localStorage.getItem("imgPath")
       }
-      var body = { wechatId: this.wechatId, imgPath: localStorage.getItem("imgPath"), msg: this.msg1 }
+      var body = { wechatId: this.wechatId, imgPath: localStorage.getItem("imgPath"), msg: this.msg }
       this.chats.push(body);
       var chatsGroups = JSON.parse(localStorage.getItem(this.wechatId + "chats"))
       for (var p in chatsGroups) {
         if (chatsGroups[p].wechatId == this.fWechatId) {
-          chatsGroups[p].lastMsg = this.msg1
+          chatsGroups[p].lastMsg = this.msg
         }
       }
       localStorage.setItem(this.wechatId + "chats", JSON.stringify(chatsGroups))
       localStorage.setItem(localStorage.getItem("wechatId") + this.fWechatId, JSON.stringify(this.chats))
       this.websocket.send(JSON.stringify(sendBody))
-      this.msg1 = ""
+      this.msg = ""
     }
   }
   chatInfo(){

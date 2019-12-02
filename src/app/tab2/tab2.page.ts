@@ -11,15 +11,16 @@ import { Router } from '@angular/router';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  friendLists = [];
+  friendLists :any;
   webSocket = null;
   msgNum: any;
   baseUrl:string;
+  list=[];
   constructor(private router:Router,private globalVar:globalVar,private http: HttpClient, private common: Common, private ws: WebSocketService) { }
   ngOnInit() {
     var _this = this;
     this.baseUrl = globalVar.baseUrl;
-    this.getFriendList()
+    // this.getFriendList()
     const url = "/websocket/socketServer?WS_NAME=tab2" + localStorage.getItem("wechatId")
     this.webSocket = this.ws.createObservableSocket(url)
     this.webSocket.onmessage = function (event: any) {
@@ -43,7 +44,20 @@ export class Tab2Page implements OnInit {
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
         if (data["respCode"] == "00") {
-          this.friendLists = data["data"];
+          var data = data["data"];
+          this.friendLists = data;
+          console.log(data)
+          this.list = [];
+          for(var i=0;i<26;i++){    
+            if(data[String.fromCharCode(65+i)]!=null){//小写字母97开始
+              console.log(String.fromCharCode(65+i))
+              this.list.push(String.fromCharCode(65+i))
+            }
+          }
+          if(data["#"]!=null){
+            this.list.push("#");
+          }
+          // console.log(this.list);
         }
         else {
           console.log(data["respMsg"]);
