@@ -43,7 +43,7 @@ export class AddFriendPagePage implements OnInit {
           if (data["data"].length>0) {
             this.router.navigate(['/friend-card'],
               {
-                queryParams: { fWechatId: data["data"][0].wechatId, fUserName: data["data"][0].userName, imgPath: data["data"][0].imgPath }
+                queryParams: { wechatId: data["data"][0].wechatId, userName: data["data"][0].userName, imgPath: data["data"][0].imgPath }
               })
           }
           else{

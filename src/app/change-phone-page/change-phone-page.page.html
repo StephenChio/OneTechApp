@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">更换手机号</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getVerifiCode()">下一步
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <p style="font-size: 14px;opacity: 0.5;">更换手机后,下次登陆可使用新手机号登陆,当前手机号:{{phone}}</p>
+  <ion-item style="--border-width:0">
+    <ion-label style="font-size: 17px;width: 6rem;">+86</ion-label>
+    <ion-input placeholder="请填写手机号码" style="width:16rem;" [(ngModel)]="newPhone"></ion-input>
+  </ion-item>
+</ion-content>

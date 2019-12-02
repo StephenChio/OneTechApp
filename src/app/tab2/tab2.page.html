@@ -31,7 +31,7 @@
   </ion-list>
   <ion-list id="friendList">
     <ion-item *ngFor="let item of friendLists" [routerLink]="['/friend-card']"
-      [queryParams]="{fWechatId:item.wechatId,fUserName:item.userName,imgPath:item.imgPath,type:'sendMsg'}">
+      [queryParams]="{wechatId:item.wechatId,userName:item.userName,imgPath:item.imgPath,type:'sendMsg'}">
       <ion-avatar slot="start">
         <img style = "border-radius: 5px;" src="{{baseUrl}}/{{item.imgPath}}">
       </ion-avatar>

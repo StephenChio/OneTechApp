@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ImagePicker} from '@ionic-native/image-picker/ngx'
 import { globalVar } from 'src/globalVar';
 import { PopComponentComponent } from './pop-component/pop-component.component';
+import { Common } from './Common/common';
+import { Popover } from './Common/popover';
 @NgModule({
   declarations: [AppComponent,PopComponentComponent],
   entryComponents: [PopComponentComponent],
@@ -23,7 +25,9 @@ import { PopComponentComponent } from './pop-component/pop-component.component';
     LoginGuardGuard,
     Camera,
     ImagePicker,
-    globalVar
+    globalVar,
+    Common,
+    Popover
   ],
   bootstrap: [AppComponent]
 })

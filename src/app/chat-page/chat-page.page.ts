@@ -44,7 +44,7 @@ export class ChatPagePage implements OnInit {
       }
       localStorage.setItem(this.wechatId + "chats", JSON.stringify(chatsGroup))
     }
-    const url = "/websocket/socketServer?wechatId=chatPage" + localStorage.getItem("wechatId")+localStorage.getItem("fWechatId")
+    const url = "/websocket/socketServer?WS_NAME=chatPage" + localStorage.getItem("wechatId")+localStorage.getItem("fWechatId")
     this.websocket = this.ws.createObservableSocket(url)
     this.websocket.onmessage = function (event: any) {
       // alert("收到消息")

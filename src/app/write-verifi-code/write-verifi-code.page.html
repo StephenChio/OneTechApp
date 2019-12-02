@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">填写验证码</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <p style="font-size: 17px;text-align: center;opacity: 0.5;">短信验证码已发送,请填写验证码</p>
+  <ion-item style="--border-width:0">
+    <ion-label style="font-size: 17px;width: 6rem;opacity: 0.7">手机号</ion-label>
+    <ion-input readonly style="width:16rem;opacity: 0.7;" [(ngModel)]="phone"></ion-input>
+  </ion-item>
+  <ion-item style="--border-width:0">
+    <ion-label style="font-size: 17px;width: 6rem;">验证码</ion-label>
+    <ion-input  placeholder="请输入验证码" style="width:16rem;" [(ngModel)]="verifiCode"></ion-input>
+  </ion-item>
+  <div class="ion-padding" style="margin-top: 1rem;">
+    <ion-button expand="block" class="ion-no-margin" color="success" (click)="changePhoneNum()">提交</ion-button>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+    <ion-card-subtitle style="font-size: 15px;margin: 0.5rem;" color="primary" (click)="showOptions()">
+      收不到验证码？</ion-card-subtitle>
+  </div>
+</ion-content>

@@ -70,7 +70,7 @@ export class UpdatePicturePage implements OnInit {
               .subscribe(data => {
                 alert(data["respMsg"])
                 this.imgPath = globalVar.baseUrl+"/"+data["data"].imgPath;
-                alert(data["data"].imgPath);
+                // alert(data["data"].imgPath);
                 localStorage.setItem("imgPath",data["data"].imgPath)
               },
                 error => {

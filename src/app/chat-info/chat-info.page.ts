@@ -19,5 +19,4 @@ export class ChatInfoPage implements OnInit {
       this.fUserName = data.fUserName;
     });
   }
-
 }

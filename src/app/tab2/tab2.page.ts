@@ -20,7 +20,7 @@ export class Tab2Page implements OnInit {
     var _this = this;
     this.baseUrl = globalVar.baseUrl;
     this.getFriendList()
-    const url = "/websocket/socketServer?wechatId=tab2" + localStorage.getItem("wechatId")
+    const url = "/websocket/socketServer?WS_NAME=tab2" + localStorage.getItem("wechatId")
     this.webSocket = this.ws.createObservableSocket(url)
     this.webSocket.onmessage = function (event: any) {
       if(_this.msgNum == null){

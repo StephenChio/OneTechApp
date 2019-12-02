@@ -10,17 +10,18 @@ import { globalVar } from 'src/globalVar';
   styleUrls: ['./friend-card.page.scss'],
 })
 export class FriendCardPage implements OnInit {
-  public fWechatId: string;
-  public fUserName: string;
+  public wechatId: string;
+  public userName: string;
   public imgPath: string;
   public type = "添加好友"
-  public baseUrl:string;
-  constructor(private globalVar:globalVar, private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private common: Common) { }
+  public baseUrl: string;
+  public Img4:any;
+  constructor(private globalVar: globalVar, private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private common: Common) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((data: any) => {
-      this.fWechatId = data.fWechatId;  //上个页面传过来的值
-      this.fUserName = data.fUserName;
+      this.wechatId = data.wechatId;  //上个页面传过来的值
+      this.userName = data.userName;
       this.imgPath = data.imgPath;
       this.baseUrl = globalVar.baseUrl;
       if (data.type == "acceptConfirm") {
@@ -29,9 +30,25 @@ export class FriendCardPage implements OnInit {
       if (data.type == "sendMsg") {
         this.type = "发消息";
       }
-      localStorage.setItem("fWechatId", this.fWechatId)
-      localStorage.setItem("fUserName", this.fUserName)
+      localStorage.setItem("fWechatId", this.wechatId)
+      localStorage.setItem("fUserName", this.userName)
     })
+    this.get4MomentsImgByWechatId();
+  }
+  get4MomentsImgByWechatId() {
+    let path = globalVar.baseUrl + "/resource/get4MomentsImgByWechatId"
+    const body = new HttpParams()
+      .set("wechatId", this.wechatId)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        this.Img4 = data["data"]
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+        })
   }
   friendVerification() {
     if (this.type == "确认添加") {
@@ -49,10 +66,10 @@ export class FriendCardPage implements OnInit {
     }
   }
   addConfirm() {
-    let path = globalVar.baseUrl+"/addressList/addConfirm"
+    let path = globalVar.baseUrl + "/addressList/addConfirm"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
-      .set("fWechatId", this.fWechatId)
+      .set("fWechatId", this.wechatId)
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
