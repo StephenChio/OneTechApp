@@ -91,6 +91,7 @@ export class VerifiPagePage implements OnInit {
           storage.setItem("userName", data["userName"]);
           storage.setItem("wechatId", data["wechatId"]);
           storage.setItem("imgPath", data["imgPath"]);
+          storage.setItem("phone", data["phone"]);
           storage.setItem("backgroundImg", data["backgroundImg"]);
           // console.log(data);
           this.router.navigate(['/'])

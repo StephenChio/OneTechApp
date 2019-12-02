@@ -30,7 +30,11 @@ const routes: Routes = [
   { path: 'popover-page', loadChildren: './popover-page/popover-page.module#PopoverPagePageModule' },
   { path: 'friend-moments', loadChildren: './friend-moments/friend-moments.module#FriendMomentsPageModule' },
   { path: 'verifi-page', loadChildren: './verifi-page/verifi-page.module#VerifiPagePageModule' },
-  { path: 'find-pass-page', loadChildren: './find-pass-page/find-pass-page.module#FindPassPagePageModule' }
+  { path: 'find-pass-page', loadChildren: './find-pass-page/find-pass-page.module#FindPassPagePageModule' },
+  { path: 'account-safe', loadChildren: './account-safe/account-safe.module#AccountSafePageModule' },
+  { path: 'phone-settings', loadChildren: './phone-settings/phone-settings.module#PhoneSettingsPageModule' },
+  { path: 'change-phone-page', loadChildren: './change-phone-page/change-phone-page.module#ChangePhonePagePageModule' },
+  { path: 'write-verifi-code', loadChildren: './write-verifi-code/write-verifi-code.module#WriteVerifiCodePageModule' }
 ];
 @NgModule({
   imports: [

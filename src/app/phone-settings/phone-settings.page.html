@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>绑定手机号</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<style>
+  p {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10rem;
+  }
+</style>
+<ion-content>
+  <p>你的手机号:{{phone}}</p>
+  <div>
+    <div class="ion-padding" style="margin-top: 2rem;">
+      <ion-button expand="block" class="ion-no-margin" color="success">查看手机通讯录</ion-button>
+    </div>
+    <div class="ion-padding">
+      <ion-button expand="block" class="ion-no-margin" color="light" (click)="changePhoneNum()">更换手机号</ion-button>
+    </div>
+  </div>
+</ion-content>
