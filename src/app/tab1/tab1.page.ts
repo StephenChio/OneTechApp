@@ -91,10 +91,9 @@ export class Tab1Page implements OnInit {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
     console.log(this.chatsGroup)
   }
-  async presentPopover(ev: any) {
+  async presentPopover() {
     const popover = await this.popoverController.create({
       component: PopComponentComponent,
-      event: ev,
       translucent: true
     });
     return await popover.present();

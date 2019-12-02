@@ -27,6 +27,17 @@ export class UpdatePicturePage implements OnInit {
         // role: 'destructive',
         // icon: 'trash',
         handler: () => {
+            const option = {
+                quality: 100,
+                destinationType : 0,  //0 返回base64编码字符串。1 返回图片文件URI。2 返回图片本机URI。
+            }
+          this.camera.getPicture(option)
+              .then((imgUrl)=>{
+                console.log(imgUrl);
+              })
+              .catch((err)=>{
+                console.log(err)
+              })
           console.log('Delete clicked');
         }
       }, {
