@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class Tab2Page implements OnInit {
   friendLists :any;
   webSocket = null;
-  msgNum: any;
+  msgNum = null;
   baseUrl:string;
   list=[];
   constructor(private router:Router,private globalVar:globalVar,private http: HttpClient, private common: Common, private ws: WebSocketService) { }
@@ -27,9 +27,16 @@ export class Tab2Page implements OnInit {
       if(_this.msgNum == null){
         _this.msgNum = 0;
       }
-      _this.msgNum = _this.msgNum+1
+      _this.msgNum = _this.msgNum + 1
       console.log(_this.msgNum)
     }
+  }
+  doRefresh(event) {
+    this.getFriendList();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
   }
   ionViewWillEnter() {
     this.getFriendList()

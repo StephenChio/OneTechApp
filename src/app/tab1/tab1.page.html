@@ -11,6 +11,9 @@
     ></ion-searchbar>
 </ion-header>
 <ion-content color="light">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let item of chatsGroup" (click)="showChat(item.fUserName,item.wechatId,item.imgPath)">
       <ion-avatar slot="start">

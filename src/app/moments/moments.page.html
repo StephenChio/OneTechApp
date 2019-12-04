@@ -75,7 +75,19 @@
                 <img style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
               </div>
             </div>
-            <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
+            <div style="display: flex;margin-bottom: 0.5rem;">
+              <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
+              <ion-button color="light" style="position: absolute;right: 1rem;" (click)="showComments(moments.id)">
+                <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
+              </ion-button>
+            </div>
+            <div *ngIf="null !== moments.likeName" style="display: flex;">
+              <ion-icon style = "margin-right: 0.25rem;" color="primary" name="heart-empty"></ion-icon>
+              <div *ngFor="let name of moments.likeName">
+                <ion-card-subtitle color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath)">{{name.userName}}
+                </ion-card-subtitle>
+              </div>
+            </div>
           </div>
         </ion-item>
       </div>

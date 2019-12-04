@@ -8,8 +8,8 @@ export class WebSocketService {
  
   ws:WebSocket
 
-  //websocketUrl = "ws://localhost:8235"
-  websocketUrl = "ws://106.13.211.195:8235"
+  websocketUrl = "ws://localhost:8235"
+  // websocketUrl = "ws://106.13.211.195:8235"
  
   constructor(){
  

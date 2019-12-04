@@ -14,6 +14,7 @@ export class FriendSettingsPage implements OnInit {
 
   ngOnInit() {
   }
+  isBlack = false;
   deleteFriend() {
     let path = globalVar.baseUrl+"/addressList/deleteFriend"
     const body = new HttpParams()
@@ -29,5 +30,8 @@ export class FriendSettingsPage implements OnInit {
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         })
+  }
+  addBlack(){
+    
   }
 }

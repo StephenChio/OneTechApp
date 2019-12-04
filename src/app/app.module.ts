@@ -14,9 +14,10 @@ import { globalVar } from 'src/globalVar';
 import { PopComponentComponent } from './pop-component/pop-component.component';
 import { Common } from './Common/common';
 import { Popover } from './Common/popover';
+import { CommentComponentComponent } from './comment-component/comment-component.component';
 @NgModule({
-  declarations: [AppComponent,PopComponentComponent],
-  entryComponents: [PopComponentComponent],
+  declarations: [AppComponent,PopComponentComponent,CommentComponentComponent],
+  entryComponents: [PopComponentComponent,CommentComponentComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [
     StatusBar,

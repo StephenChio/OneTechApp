@@ -114,4 +114,10 @@ export class Tab1Page implements OnInit {
   ionViewWillLeave() {
     
   }
+  doRefresh(event) {
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
+  }
 }

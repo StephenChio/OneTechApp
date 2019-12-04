@@ -48,9 +48,9 @@
   <ion-list lines="none">
     <ion-item>
       <ion-label>加入黑名单</ion-label>
-      <ion-toggle class="toggle" slot="start" name="kiwi" color="success"></ion-toggle>
+      <ion-toggle class="toggle" slot="start" name="kiwi" color="success" (ionChange) = "addBlack()" [(ngModel)]="isBlack"></ion-toggle>
     </ion-item>
-    <ion-item href="settings">
+    <ion-item>
       <ion-label>投诉</ion-label>
     </ion-item>
   </ion-list>

@@ -6,6 +6,8 @@ import { Common } from '../Common/common';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { globalVar } from 'src/globalVar';
+import { Popover } from '../Common/popover';
+import { CommentComponentComponent } from '../comment-component/comment-component.component'
 
 @Component({
   selector: 'app-moments',
@@ -14,7 +16,7 @@ import { globalVar } from 'src/globalVar';
 })
 export class MomentsPage implements OnInit {
 
-  constructor(private activatedRoute:ActivatedRoute,private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
+  constructor(private popor:Popover,private activatedRoute:ActivatedRoute,private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
   imgPath: string;
   Moments:any;
   baseUrl:string;
@@ -25,9 +27,10 @@ export class MomentsPage implements OnInit {
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.getMoments();
     })
-    this.getMoments();
   }
   doRefresh(event) {
+    this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
+    this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
     this.getMoments();
     setTimeout(() => {
       console.log('Async operation has ended');
@@ -162,5 +165,8 @@ export class MomentsPage implements OnInit {
     });
     await actionSheet.present();
   }
-
+  showComments(id:any){
+    localStorage.setItem("momentId",id);
+    this.popor.presentPopover(CommentComponentComponent);
+  }
 }
