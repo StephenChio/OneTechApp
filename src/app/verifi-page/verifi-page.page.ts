@@ -68,14 +68,22 @@ export class VerifiPagePage implements OnInit {
       this.common.presentAlert("请先发送验证码")
       return;
     }
-    let path = globalVar.baseUrl + "/login"
     let loginType = null;
     if (this.useVerifiCode) {
+      if(this.verifiCode==null || this.verifiCode.length!==6){
+        this.common.presentAlert("请正确填写二维码")
+        return;
+      }
       loginType = "verifiCode"
     }
     else {
+      if(this.password==null || this.password.length>=31){
+        this.common.presentAlert("请正确填写密码")
+        return;
+      }
       loginType = "password"
     }
+    let path = globalVar.baseUrl + "/login"
     const body = new HttpParams().set("phone", this.phone).set("verifiCode",this.verifiCode).set("password", this.password).set("loginType",loginType)
 
     let httpOptions = {

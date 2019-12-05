@@ -77,9 +77,28 @@
             </div>
             <div style="display: flex;margin-bottom: 0.5rem;">
               <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
-              <ion-button color="light" style="position: absolute;right: 1rem;" (click)="showComments(moments.id)">
+              <!-- <ion-button color="light" style="position: absolute;right: 1rem;" (click)="showComments(moments.id)">
                 <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
-              </ion-button>
+              </ion-button> -->
+              <ion-fab horizontal="start" slot="fixed" style="position: absolute;right: 1rem;">
+                <ion-button color="light" style="position: absolute;right: 0rem;">
+                  <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
+                </ion-button>
+                <ion-fab-list side="end" style="left: 7rem;margin: 0rem;position: absolute;">
+                  <div style="display: flex;">
+                    <ion-item (click)="clickLike(moments.id)">
+                      <ion-icon name="heart-empty"></ion-icon>
+                      <ion-label>赞
+                      </ion-label>
+                    </ion-item>
+                    <ion-item (click)="comment(moments.id)">
+                      <ion-icon name="text"></ion-icon>
+                      <ion-label>评论
+                      </ion-label>
+                    </ion-item>
+                  </div>
+                </ion-fab-list>
+              </ion-fab>
             </div>
             <div *ngIf="null !== moments.likeName" style="display: flex;">
               <ion-icon style = "margin-right: 0.25rem;" color="primary" name="heart-empty"></ion-icon>

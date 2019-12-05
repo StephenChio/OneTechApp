@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: 'phone-settings', loadChildren: './phone-settings/phone-settings.module#PhoneSettingsPageModule' },
   { path: 'change-phone-page', loadChildren: './change-phone-page/change-phone-page.module#ChangePhonePagePageModule' },
   { path: 'write-verifi-code', loadChildren: './write-verifi-code/write-verifi-code.module#WriteVerifiCodePageModule' },
+  { path: 'set-password', loadChildren: './set-password/set-password.module#SetPasswordPageModule' },
 ];
 @NgModule({
   imports: [

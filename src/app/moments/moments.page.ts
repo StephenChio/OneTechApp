@@ -167,6 +167,20 @@ export class MomentsPage implements OnInit {
   }
   showComments(id:any){
     localStorage.setItem("momentId",id);
-    this.popor.presentPopover(CommentComponentComponent);
+    // this.popor.presentPopover(CommentComponentComponent);
+  }
+  clickLike(momentId:any){
+    let path = globalVar.baseUrl+"/comments/clickLike"
+    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId",momentId)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        this.common.presentAlert(data["respMsg"])
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+      });
   }
 }
