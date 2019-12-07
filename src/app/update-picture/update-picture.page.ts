@@ -12,11 +12,11 @@ import { Common } from '../Common/common';
 })
 export class UpdatePicturePage implements OnInit {
 
-  constructor(private camera:Camera, private http: HttpClient, private common: Common, private globalVar: globalVar, private imagePicker: ImagePicker, private actionSheetController: ActionSheetController) { }
+  constructor(private camera: Camera, private http: HttpClient, private common: Common, private globalVar: globalVar, private imagePicker: ImagePicker, private actionSheetController: ActionSheetController) { }
   imgPath: string;
   baseUrl: string;
   ngOnInit() {
-    this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
+    this.imgPath = globalVar.baseUrl + "/" + localStorage.getItem("imgPath")
     this.baseUrl = globalVar.baseUrl;
   }
   async presentActionSheet() {
@@ -27,17 +27,17 @@ export class UpdatePicturePage implements OnInit {
         // role: 'destructive',
         // icon: 'trash',
         handler: () => {
-            const option = {
-                quality: 100,
-                destinationType : 0,  //0 返回base64编码字符串。1 返回图片文件URI。2 返回图片本机URI。
-            }
+          const option = {
+            quality: 100,
+            destinationType: 0,  //0 返回base64编码字符串。1 返回图片文件URI。2 返回图片本机URI。
+          }
           this.camera.getPicture(option)
-              .then((imgUrl)=>{
-                console.log(imgUrl);
-              })
-              .catch((err)=>{
-                console.log(err)
-              })
+            .then((imgUrl) => {
+              console.log(imgUrl);
+            })
+            .catch((err) => {
+              console.log(err)
+            })
           console.log('Delete clicked');
         }
       }, {
@@ -57,25 +57,26 @@ export class UpdatePicturePage implements OnInit {
           this.imagePicker.getPictures(option).then((results) => {
             /**这里results返回的是一个数组，可以通过  results.pop()返回最后一个值，shift()返回第一个值，如果你只允许选择一个图片的话
             ，两者都是可以的，为了程序健壮性，这里建议你对results的长度进行判断处理。*/
+            if (results.length >= 1) {
+              let path = globalVar.baseUrl + "/userInfo/updatePicture"
+              const body = new HttpParams()
+                .set("wechatId", localStorage.getItem("wechatId"))
+                .set("imgPath", "data:image/jpeg;base64," + results)
 
-            let path = globalVar.baseUrl + "/userInfo/updatePicture"
-            const body = new HttpParams()
-              .set("wechatId", localStorage.getItem("wechatId"))
-              .set("imgPath", "data:image/jpeg;base64,"+results)
-              
-            let httpOptions = {
-              headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+              let httpOptions = {
+                headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+              }
+              this.http.post(path, body, httpOptions)
+                .subscribe(data => {
+                  alert(data["respMsg"])
+                  this.imgPath = globalVar.baseUrl + "/" + data["data"].imgPath;
+                  // alert(data["data"].imgPath);
+                  localStorage.setItem("imgPath", data["data"].imgPath)
+                },
+                  error => {
+                    this.common.presentAlert("服务器繁忙,请重试")
+                  })
             }
-            this.http.post(path, body, httpOptions)
-              .subscribe(data => {
-                alert(data["respMsg"])
-                this.imgPath = globalVar.baseUrl+"/"+data["data"].imgPath;
-                // alert(data["data"].imgPath);
-                localStorage.setItem("imgPath",data["data"].imgPath)
-              },
-                error => {
-                  this.common.presentAlert("服务器繁忙,请重试")
-                })
           }, (err) => { });
         }
       }, {

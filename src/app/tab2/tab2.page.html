@@ -7,7 +7,8 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-searchbar (ionFocus)="hide()" (ionBlur)="show()" placeholder="搜索" showCancelButton="focus" cancelButtonText="取消">
+  <ion-searchbar (ionFocus)="hide()" (ionCancel)="show()" placeholder="搜索" (ionChange)="searchFriend()"
+  [(ngModel)]="searchText" showCancelButton="focus" cancelButtonText="取消">
   </ion-searchbar>
 </ion-header>
 <ion-content color="light">
@@ -33,13 +34,15 @@
       <ion-label>公众号</ion-label>
     </ion-item>
   </ion-list>
-  <ion-list id="friendList" t>
+  <ion-list id="friendList">
     <div *ngFor="let l of list">
       <ion-list style="margin: 0 !important;">
         <p
           style="font-size: 20px;background: #f4f5f8;margin-top: 0rem;margin-bottom: 0rem;text-indent: 1rem;opacity: 0.7;">
           {{l}}</p>
-        <ion-item *ngFor="let item of friendLists[l]" [routerLink]="['/friend-card']"
+
+        <ion-item-sliding *ngFor="let item of friendLists[l]">
+        <ion-item [routerLink]="['/friend-card']"
           [queryParams]="{wechatId:item.wechatId,userName:item.userName,imgPath:item.imgPath,type:'sendMsg'}">
           <ion-avatar slot="start">
             <img style="border-radius: 5px;" src="{{baseUrl}}/{{item.imgPath}}">
@@ -49,7 +52,24 @@
             <p>{{item.sign}}</p>
           </ion-label>
         </ion-item>
+        <ion-item-options>
+            <ion-button style="height: 2rem;" color = "danger" (click)="deleteFriend(item.wechatId)">删除</ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
       </ion-list>
     </div>
+  </ion-list>
+
+  <ion-list id="searchFriendList">
+      <ion-item *ngFor="let item of searchFriendList" [routerLink]="['/friend-card']"
+        [queryParams]="{wechatId:item.wechatId,imgPath:item.imgPath,userName:item.userName,type:'sendMsg'}">
+        <ion-avatar slot="start">
+          <img style = "border-radius: 5px;" src="{{baseUrl}}/{{item.imgPath}}">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{item.userName}}</h2>
+          <p>{{item.verificationMsg}}</p>
+        </ion-label>
+      </ion-item>
   </ion-list>
 </ion-content>

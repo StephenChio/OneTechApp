@@ -11,24 +11,28 @@ import { Router } from '@angular/router';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  friendLists :any;
-  webSocket = null;
+  friendLists: any;
+  websocket = null;
   msgNum = null;
-  baseUrl:string;
-  list=[];
-  constructor(private router:Router,private globalVar:globalVar,private http: HttpClient, private common: Common, private ws: WebSocketService) { }
+  baseUrl: string;
+  searchText: any;
+  list = [];
+  searchFriendList = [];
+  constructor(private router: Router, private globalVar: globalVar, private http: HttpClient, private common: Common, private ws: WebSocketService) { }
   ngOnInit() {
     var _this = this;
     this.baseUrl = globalVar.baseUrl;
     // this.getFriendList()
     const url = "/websocket/socketServer?WS_NAME=tab2" + localStorage.getItem("wechatId")
-    this.webSocket = this.ws.createObservableSocket(url)
-    this.webSocket.onmessage = function (event: any) {
-      if(_this.msgNum == null){
-        _this.msgNum = 0;
+    if (this.websocket == null) {
+      this.websocket = this.ws.createObservableSocket(url)
+      this.websocket.onmessage = function (event: any) {
+        if (_this.msgNum == null) {
+          _this.msgNum = 0;
+        }
+        _this.msgNum = _this.msgNum + 1
+        console.log(_this.msgNum)
       }
-      _this.msgNum = _this.msgNum + 1
-      console.log(_this.msgNum)
     }
   }
   doRefresh(event) {
@@ -42,7 +46,7 @@ export class Tab2Page implements OnInit {
     this.getFriendList()
   }
   getFriendList() {
-    let path = globalVar.baseUrl+"/addressList/getFriendList"
+    let path = globalVar.baseUrl + "/addressList/getFriendList"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
     let httpOptions = {
@@ -53,15 +57,15 @@ export class Tab2Page implements OnInit {
         if (data["respCode"] == "00") {
           var data = data["data"];
           this.friendLists = data;
-          console.log(data)
+          // console.log(data)
           this.list = [];
-          for(var i=0;i<26;i++){    
-            if(data[String.fromCharCode(65+i)]!=null){//小写字母97开始
-              console.log(String.fromCharCode(65+i))
-              this.list.push(String.fromCharCode(65+i))
+          for (var i = 0; i < 26; i++) {
+            if (data[String.fromCharCode(65 + i)] != null) {//小写字母97开始
+              // console.log(String.fromCharCode(65 + i))
+              this.list.push(String.fromCharCode(65 + i))
             }
           }
-          if(data["#"]!=null){
+          if (data["#"] != null) {
             this.list.push("#");
           }
           // console.log(this.list);
@@ -74,7 +78,7 @@ export class Tab2Page implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
         })
   }
-  newFriend(){
+  newFriend() {
     this.msgNum = null;
     this.router.navigate(['/new-friend']);
   }
@@ -82,18 +86,66 @@ export class Tab2Page implements OnInit {
     var title = document.getElementById("tab2Title");
     var tab2Info = document.getElementById("tab2Info");
     var friendList = document.getElementById("friendList");
+    var searchFriendList = document.getElementById("searchFriendList");
     title.style.display = "none"
     friendList.style.display = "none"
     tab2Info.style.display = "none"
+    searchFriendList.style.removeProperty("display")
     console.log("hide")
   }
   show() {
     var title = document.getElementById("tab2Title");
     var tab2Info = document.getElementById("tab2Info");
     var friendList = document.getElementById("friendList");
+    var searchFriendList = document.getElementById("searchFriendList");
     friendList.style.removeProperty("display")
     title.style.removeProperty("display")
     tab2Info.style.removeProperty("display")
+    searchFriendList.style.display = "none"
+    this.searchFriendList = [];
     console.log("show")
+  }
+  deleteFriend(wechatId: any) {
+    let path = globalVar.baseUrl + "/addressList/deleteFriend"
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("fWechatId", wechatId)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        this.removeChat(wechatId);
+        this.getFriendList();
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+        })
+  }
+  removeChat(wechatId: any) {
+    var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
+    for (var p in chatsGroup) {
+      if (chatsGroup[p].wechatId == wechatId) {
+        chatsGroup.splice(p, 1);
+        // delete this.chatsGroup[p];
+        localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup))
+        localStorage.removeItem(localStorage.getItem("wechatId") + wechatId);
+      }
+    }
+  }
+  searchFriend() {
+    if(this.searchText==""){
+      return;
+    }
+    this.searchFriendList = [];
+    console.log(this.searchText);
+    for (var j in this.list) {
+      for (var p in this.friendLists[this.list[j]]) {
+        if (this.friendLists[this.list[j]][p].userName.match(this.searchText) || this.friendLists[this.list[j]][p].phone.match(this.searchText) || this.friendLists[this.list[j]][p].wechatId.match(this.searchText)) {
+          this.searchFriendList.push(this.friendLists[this.list[j]][p])
+        }
+      }
+    }
+    console.log(this.searchFriendList)
   }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginGuardGuard } from './guard/login-guard.guard';
+import { QuitGuardGuard } from './guard/quit-guard.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'card', loadChildren: './card/card.module#CardPageModule',canActivate: [LoginGuardGuard] },
   { path: 'expression', loadChildren: './expression/expression.module#ExpressionPageModule' ,canActivate: [LoginGuardGuard]},
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule',canActivate: [LoginGuardGuard]},
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule'},
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule',canActivate: [QuitGuardGuard]},
   { path: 'moments', loadChildren: './moments/moments.module#MomentsPageModule' ,canActivate: [LoginGuardGuard]},
   { path: 'add-friend-page', loadChildren: './add-friend-page/add-friend-page.module#AddFriendPagePageModule',canActivate: [LoginGuardGuard] },
   { path: 'friend-card', loadChildren: './friend-card/friend-card.module#FriendCardPageModule' ,canActivate: [LoginGuardGuard]},
@@ -29,7 +30,7 @@ const routes: Routes = [
   { path: 'chat-info', loadChildren: './chat-info/chat-info.module#ChatInfoPageModule' },
   { path: 'popover-page', loadChildren: './popover-page/popover-page.module#PopoverPagePageModule' },
   { path: 'friend-moments', loadChildren: './friend-moments/friend-moments.module#FriendMomentsPageModule' },
-  { path: 'verifi-page', loadChildren: './verifi-page/verifi-page.module#VerifiPagePageModule' },
+  { path: 'verifi-page', loadChildren: './verifi-page/verifi-page.module#VerifiPagePageModule' ,canActivate: [QuitGuardGuard]},
   { path: 'find-pass-page', loadChildren: './find-pass-page/find-pass-page.module#FindPassPagePageModule' },
   { path: 'account-safe', loadChildren: './account-safe/account-safe.module#AccountSafePageModule' },
   { path: 'phone-settings', loadChildren: './phone-settings/phone-settings.module#PhoneSettingsPageModule' },

@@ -20,6 +20,9 @@ export class FriendVerificationPage implements OnInit {
   // }
   sendVerification() {
     let path = globalVar.baseUrl+"/addressList/sendVerification";
+    if(this.verificationMsg==null){
+      this.verificationMsg = "";
+    }
     const body = new HttpParams()
       .set("verificationMsg", this.verificationMsg)
       .set("wechatId", localStorage.getItem("wechatId"))

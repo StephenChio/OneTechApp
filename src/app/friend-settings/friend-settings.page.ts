@@ -16,7 +16,7 @@ export class FriendSettingsPage implements OnInit {
   }
   isBlack = false;
   deleteFriend() {
-    let path = globalVar.baseUrl+"/addressList/deleteFriend"
+    let path = globalVar.baseUrl+"/addressList/deleteFriend";
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
       .set("fWechatId", localStorage.getItem("fWechatId"))
@@ -25,13 +25,25 @@ export class FriendSettingsPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
+        this.removeChat(localStorage.getItem("fWechatId"));
+        this.common.presentAlert(data["respMsg"]);
       },
         error => {
-          this.common.presentAlert("服务器繁忙,请重试")
+          this.common.presentAlert("服务器繁忙,请重试");
         })
   }
   addBlack(){
     
+  }
+  removeChat(wechatId:any){
+    var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId")+"chats"));
+    for(var p in chatsGroup){
+      if(chatsGroup[p].wechatId == wechatId){
+        chatsGroup.splice(p,1);
+        // delete this.chatsGroup[p];
+        localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup));
+        localStorage.removeItem(localStorage.getItem("wechatId")+wechatId);
+      }
+    }
   }
 }

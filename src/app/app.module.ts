@@ -15,6 +15,7 @@ import { PopComponentComponent } from './pop-component/pop-component.component';
 import { Common } from './Common/common';
 import { Popover } from './Common/popover';
 import { CommentComponentComponent } from './comment-component/comment-component.component';
+import { QuitGuardGuard } from './guard/quit-guard.guard';
 @NgModule({
   declarations: [AppComponent,PopComponentComponent,CommentComponentComponent],
   entryComponents: [PopComponentComponent,CommentComponentComponent],
@@ -24,6 +25,7 @@ import { CommentComponentComponent } from './comment-component/comment-component
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     LoginGuardGuard,
+    QuitGuardGuard,
     Camera,
     ImagePicker,
     globalVar,

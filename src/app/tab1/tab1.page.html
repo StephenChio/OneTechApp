@@ -7,15 +7,16 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-searchbar (ionFocus)="hide()" (ionBlur)="show()" placeholder="搜索" showCancelButton="focus" cancelButtonText = "取消"
-    ></ion-searchbar>
+  <ion-searchbar (ionFocus)="hide()" (ionCancel)="show()" placeholder="搜索" 
+  showCancelButton="focus" [(ngModel)]="searchText" cancelButtonText = "取消" (ionChange)="searchChat()"></ion-searchbar>
 </ion-header>
 <ion-content color="light">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-  <ion-list>
-    <ion-item *ngFor="let item of chatsGroup" (click)="showChat(item.fUserName,item.wechatId,item.imgPath)">
+  <ion-list id = "chatList">
+    <ion-item-sliding *ngFor="let item of chatsGroup">
+    <ion-item (click)="showChat(item.fUserName,item.wechatId,item.imgPath)">
       <ion-avatar slot="start">
         <img style = "border-radius: 5px;"  src="{{baseUrl}}/{{item.imgPath}}">
       </ion-avatar>
@@ -25,5 +26,28 @@
       </ion-label>
       <ion-badge color="danger" slot="end">{{item.msgNum}}</ion-badge>
     </ion-item>
+    <ion-item-options>
+        <ion-button color = "danger" (click)="removeChat(item.wechatId)">删除</ion-button>
+      </ion-item-options>
+  </ion-item-sliding>
+  
+  </ion-list>
+
+  <ion-list id = "searchChatList">
+      <ion-item-sliding *ngFor="let item of searchChatList">
+          <ion-item (click)="showChat(item.fUserName,item.wechatId,item.imgPath)">
+            <ion-avatar slot="start">
+              <img style = "border-radius: 5px;"  src="{{baseUrl}}/{{item.imgPath}}">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{item.fUserName}}</h2>
+              <p>{{item.lastMsg}}</p>
+            </ion-label>
+            <ion-badge color="danger" slot="end">{{item.msgNum}}</ion-badge>
+          </ion-item>
+          <ion-item-options>
+              <ion-button color = "danger" (click)="removeChat(item.wechatId)">删除</ion-button>
+            </ion-item-options>
+        </ion-item-sliding>
   </ion-list>
 </ion-content>
