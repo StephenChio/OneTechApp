@@ -14,7 +14,7 @@ export class Tab3Page implements OnInit {
   websocket = null;
   ngOnInit() {
     var _this = this;
-    const url = "/websocket/socketServer?WS_NAME=tab3" + localStorage.getItem("wechatId")
+    const url = "/websocket/socketServer?WS_NAME=tab3" + "and" + localStorage.getItem("wechatId")
     if (this.websocket == null) {
       this.websocket = this.ws.createObservableSocket(url)
       this.websocket.onmessage = function (event: any) {

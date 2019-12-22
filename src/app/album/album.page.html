@@ -1,12 +1,43 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/tab4"></ion-back-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab4"></ion-back-button>
+    </ion-buttons>
     <ion-title>朋友圈相册</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<style>
+.context {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.time{
+  text-align: center;
+  width: 14rem;
+  font-size: 19px;
+}
+</style>
 <ion-content>
-
+  <div>
+    <ion-item style="margin-top: 1rem;margin-bottom: 1rem;"lines="none" [routerLink]="['/friend-moments']" [queryParams]="{wechatId:wechatId}">
+      <ion-label slot="end" style="color:cornflowerblue;text-align: right;">
+        我的朋友圈
+      </ion-label>
+    </ion-item>
+    <ion-list *ngFor="let moments of Moments" lines="none">
+      <div *ngIf="moments.pictureImgPath">
+        <ion-item class="box">
+          <ion-card-subtitle class="time">{{moments.createTime.slice(5,7)}}月</ion-card-subtitle>
+          <div class="context">
+            <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap;width: 258px;">
+              <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
+                style="display:inline-block;width:80px;height:80px;margin: 3px;">
+                <img (click)="showPicInfo(moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime,'personal')" style="width:80px;height:80px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+              </div>
+            </div>
+          </div>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
 </ion-content>

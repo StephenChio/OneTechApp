@@ -19,7 +19,26 @@ export class ChangePhonePagePage implements OnInit {
       this.phone = data.phone;
     })
   }
-  getVerifiCode(){
+  checkPhoneUsed(phone:any):boolean{
+    let path = globalVar.baseUrl + "/checkPhoneUsed"
+    const body = new HttpParams().set("phone", phone)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        if (data["respCode"] == "00") {
+          return true;
+        }
+      },
+        error => {
+          this.common.presentAlert("系统繁忙,请重试");
+          return false;
+        }
+      );
+    return false;
+  }
+  nextStep(){
     var re = /^(13[0-9]{9})|(15[89][0-9]{8})$/;
     if (!re.test(this.newPhone)) {
       this.common.presentAlert('请输入正确的手机号码。');
@@ -29,6 +48,13 @@ export class ChangePhonePagePage implements OnInit {
       this.common.presentAlert("请勿重复绑定手机");
       return false;
     }
+    if(this.checkPhoneUsed(this.newPhone)==false){
+      this.common.presentAlert("该手机号已被使用,请更换手机号码重试");
+      return;
+    }
+    this.sendVerifiCode()
+  }
+  sendVerifiCode(){
     let path = globalVar.baseUrl + "/getVerifiCode"
     const body = new HttpParams().set("phone", this.newPhone)
     let httpOptions = {

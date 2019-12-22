@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar style="opacity: 0.4;position: absolute;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #222428; color:white;">{{title}}</ion-title>
+    <ion-buttons slot="secondary" style="position: absolute;right: 0rem;" (click)="selectActionSheet()">
+      <ion-button>
+        <ion-icon slot="icon-only" style="color:white;" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="dark">
+  <div style="margin-top: 20%;">
+    <p style="margin: 0;text-align: center;background: #222428; color:white;">{{page}}</p>
+    <ion-slides (ionSlidePrevEnd)="ionSlidePrevEnd()" (ionSlideNextEnd)="ionSlideNextEnd()">
+      <ion-slide *ngFor="let ps of pictures;index as i">
+        <img src="{{baseUrl}}/{{pictures[i]}}" />
+      </ion-slide>
+    </ion-slides>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <p style="margin: 0;background: #222428; color:white;">{{text}}</p>
+</ion-footer>

@@ -12,46 +12,46 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 })
 export class TextMomentsPage implements OnInit {
 
-  constructor(private router:Router,private imagePicker:ImagePicker, private activatedRoute:ActivatedRoute,private globalVar:globalVar,private http: HttpClient, private common: Common) { }
-  text:string;
+  constructor(private router: Router, private imagePicker: ImagePicker, private activatedRoute: ActivatedRoute, private globalVar: globalVar, private http: HttpClient, private common: Common) { }
+  text: string;
   pictureMoments = null;
   title = "发表文字"
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((data: any) => {
-      if(data.type == "picture"){
+      if (data.type == "picture") {
         this.title = null;
         this.choosePicture();
       }
     });
   }
-  choosePicture(){
-      const option = {
-        maximumImagesCount: 9,	// 可选择的图片数量默认 15，1为单选
-        // width : 400  ,		// 图片宽
-        // height : 500 ,		//图片高
-        quality: 100,		//图片质量，质量越高图片越大,请根据实际情况选择
-        outputType: 1
-        /** 文件输出类型，你可以选择图片URL，或者base64的文件编码
-        这里建议选择文件编码  0  ：文件地址  1：图片base64编码*/
-      }
+  choosePicture() {
+    const option = {
+      maximumImagesCount: 9,	// 可选择的图片数量默认 15，1为单选
+      // width : 400  ,		// 图片宽
+      // height : 500 ,		//图片高
+      quality: 100,		//图片质量，质量越高图片越大,请根据实际情况选择
+      outputType: 1
+      /** 文件输出类型，你可以选择图片URL，或者base64的文件编码
+      这里建议选择文件编码  0  ：文件地址  1：图片base64编码*/
+    }
 
-      this.imagePicker.getPictures(option).then((results) => {
-        /**这里results返回的是一个数组，可以通过  results.pop()返回最后一个值，shift()返回第一个值，如果你只允许选择一个图片的话
-        ，两者都是可以的，为了程序健壮性，这里建议你对results的长度进行判断处理。*/
-        this.pictureMoments = results
-      }, (err) => { });
+    this.imagePicker.getPictures(option).then((results) => {
+      /**这里results返回的是一个数组，可以通过  results.pop()返回最后一个值，shift()返回第一个值，如果你只允许选择一个图片的话
+      ，两者都是可以的，为了程序健壮性，这里建议你对results的长度进行判断处理。*/
+      this.pictureMoments = results
+    }, (err) => { });
   }
-  publish(){
-    let path = globalVar.baseUrl+"/moments/publish"
+  publish() {
+    let path = globalVar.baseUrl + "/moments/publish"
+    if(this.text==null)this.text="";
+    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
+      .set("text", this.text)
+      .set("pictureMoments", this.pictureMoments);
 
-      const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
-      .set("text",this.text)
-      .set("pictureMoments",this.pictureMoments);
-
-      let httpOptions = {
-        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-      }
-      this.http.post(path, body, httpOptions)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
       .subscribe(data => {
         this.common.presentAlert(data["respMsg"])
         this.router.navigate(['/moments'])

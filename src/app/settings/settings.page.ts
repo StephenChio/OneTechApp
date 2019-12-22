@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-
+import { globalVar } from 'src/globalVar';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -8,9 +8,10 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class SettingsPage implements OnInit {
 
-  constructor(private actionSheetController:ActionSheetController) { }
-
+  constructor(private globalVar:globalVar,private actionSheetController:ActionSheetController) { }
+  version:any
   ngOnInit() {
+    this.version = globalVar.version
   }
   async quit() {
     const actionSheet = await this.actionSheetController.create({

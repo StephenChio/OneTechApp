@@ -24,7 +24,7 @@ export class VerifiPagePage implements OnInit {
   password: any;
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((data: any) => {
-      console.log(data.phone)
+      // console.log(data.phone)
       this.phone = data.phone;
     });
   }
@@ -70,21 +70,21 @@ export class VerifiPagePage implements OnInit {
     }
     let loginType = null;
     if (this.useVerifiCode) {
-      if(this.verifiCode==null || this.verifiCode.length!==6){
+      if (this.verifiCode == null || this.verifiCode.length !== 6) {
         this.common.presentAlert("请正确填写二维码")
         return;
       }
       loginType = "verifiCode"
     }
     else {
-      if(this.password==null || this.password.length>=31){
+      if (this.password == null || this.password.length >= 31) {
         this.common.presentAlert("请正确填写密码")
         return;
       }
       loginType = "password"
     }
     let path = globalVar.baseUrl + "/login"
-    const body = new HttpParams().set("phone", this.phone).set("verifiCode",this.verifiCode).set("password", this.password).set("loginType",loginType)
+    const body = new HttpParams().set("phone", this.phone).set("verifiCode", this.verifiCode).set("password", this.password).set("loginType", loginType)
 
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
@@ -94,6 +94,7 @@ export class VerifiPagePage implements OnInit {
         if (data["respCode"] == "00") {
           var storage = window.localStorage;
           var data = data["data"];
+          console.log(data)
           // const user_token = {wechatId:data["wechatId"],time:new Date}
           storage.setItem("user_token", data["wechatId"]);
           storage.setItem("userName", data["userName"]);
@@ -102,7 +103,16 @@ export class VerifiPagePage implements OnInit {
           storage.setItem("phone", data["phone"]);
           storage.setItem("backgroundImg", data["backgroundImg"]);
           // console.log(data);
-          this.router.navigate(['/'])
+          if (data["passWord"] == null) {
+            this.router.navigate(['/set-password'],
+              {
+                queryParams: { type: "init" }
+              }
+            )
+          }
+          else { 
+            this.router.navigate(['/']) 
+          }
         }
         else {
           this.common.presentAlert(data["respMsg"]);

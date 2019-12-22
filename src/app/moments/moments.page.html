@@ -56,7 +56,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <img class="titlePicture" (click)="selectBackground()" src="{{backgroundImg}}">
-  <img class="head" src="{{imgPath}}">
+  <img class="head" (click)="showInfo(wechatId,userName,imgPath)" src="{{baseUrl}}/{{imgPath}}">
   <div style="position: absolute; top: 60%;">
     <ion-list *ngFor="let moments of Moments">
       <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
@@ -72,7 +72,7 @@
             <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
               <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
                 style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
-                <img style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+                <img (click)="showPicInfo(moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime,'other')" style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
               </div>
             </div>
             <div style="display: flex;margin-bottom: 0.5rem;">
@@ -86,12 +86,12 @@
                 </ion-button>
                 <ion-fab-list side="end" style="left: 7rem;margin: 0rem;position: absolute;">
                   <div style="display: flex;">
-                    <ion-item (click)="clickLike(moments.id)">
+                    <ion-item (click)="clickLike(moments.id,moments.wechatId)">
                       <ion-icon name="heart-empty"></ion-icon>
                       <ion-label>赞
                       </ion-label>
                     </ion-item>
-                    <ion-item (click)="comment(moments.id)">
+                    <ion-item (click)="comment(moments.id,moments.wechatId)">
                       <ion-icon name="text"></ion-icon>
                       <ion-label>评论
                       </ion-label>

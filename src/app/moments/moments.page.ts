@@ -21,8 +21,12 @@ export class MomentsPage implements OnInit {
   Moments:any;
   baseUrl:string;
   backgroundImg:string;
+  userName:any;
+  wechatId:any;
   ngOnInit() {
-    this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
+    this.userName = window.localStorage.getItem("userName");
+    this.wechatId = window.localStorage.getItem("wechatId");
+    this.imgPath = localStorage.getItem("imgPath")
     this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.getMoments();
@@ -169,9 +173,9 @@ export class MomentsPage implements OnInit {
     localStorage.setItem("momentId",id);
     // this.popor.presentPopover(CommentComponentComponent);
   }
-  clickLike(momentId:any){
+  clickLike(momentId:any,wechatId:any){
     let path = globalVar.baseUrl+"/comments/clickLike"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId",momentId)
+    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId",momentId).set("fWechatId",wechatId)
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -182,5 +186,19 @@ export class MomentsPage implements OnInit {
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
       });
+  }
+
+  showPicInfo(pictureId:any,pictures:any,picture:any,text:any,time:any){
+    console.log(pictures)
+    console.log(picture)
+    this.router.navigate(['/picture-information'],{
+      queryParams:{
+        pictures:pictures,
+        picture:picture,
+        time:time,
+        pictureId:pictureId,
+        text:text
+      }
+    })
   }
 }

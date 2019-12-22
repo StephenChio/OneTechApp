@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { WebSocketService } from '../websocket/websocket';
 import { Common } from '../Common/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { globalVar } from 'src/globalVar';
 })
 export class ChatPagePage implements OnInit {
 
-  constructor(private globalVar:globalVar, private router:Router,private http: HttpClient, private ws: WebSocketService, private common: Common, private activatedRoute: ActivatedRoute) { }
+  constructor(private globalVar: globalVar, private router: Router, private http: HttpClient, private ws: WebSocketService, private common: Common, private activatedRoute: ActivatedRoute) { }
   fUserName: any;
   wechatId: any;
   fWechatId: any;
@@ -20,7 +20,7 @@ export class ChatPagePage implements OnInit {
   imgPath: any;
   websocket = null;
   chats = []
-  baseUrl:string;
+  baseUrl: string;
   ngOnInit() {
     var _this = this;
     this.baseUrl = globalVar.baseUrl;
@@ -37,14 +37,14 @@ export class ChatPagePage implements OnInit {
       localStorage.setItem(localStorage.getItem("wechatId") + this.fWechatId, JSON.stringify(this.chats))
       var chatsGroup = JSON.parse(localStorage.getItem(this.wechatId + "chats"))
       if (chatsGroup == null) {
-        chatsGroup = [{ wechatId: this.fWechatId, fUserName: this.fUserName, lastMsg: "", msgNum:null, imgPath: this.imgPath }]
+        chatsGroup = [{ wechatId: this.fWechatId, fUserName: this.fUserName, lastMsg: "", msgNum: null, imgPath: this.imgPath }]
       }
       else {
-        chatsGroup.push({ wechatId: this.fWechatId, fUserName: this.fUserName, lastMsg: "",msgNum:null, imgPath: this.imgPath })
+        chatsGroup.push({ wechatId: this.fWechatId, fUserName: this.fUserName, lastMsg: "", msgNum: null, imgPath: this.imgPath })
       }
       localStorage.setItem(this.wechatId + "chats", JSON.stringify(chatsGroup))
     }
-    const url = "/websocket/socketServer?WS_NAME=chatPage" + localStorage.getItem("wechatId")+localStorage.getItem("fWechatId")
+    const url = "/websocket/socketServer?WS_NAME=chatPage" + "and" + localStorage.getItem("wechatId") + "and" + localStorage.getItem("fWechatId")
     this.websocket = this.ws.createObservableSocket(url)
     this.websocket.onmessage = function (event: any) {
       // alert("收到消息")
@@ -97,15 +97,50 @@ export class ChatPagePage implements OnInit {
       }
       localStorage.setItem(this.wechatId + "chats", JSON.stringify(chatsGroups))
       localStorage.setItem(localStorage.getItem("wechatId") + this.fWechatId, JSON.stringify(this.chats))
-      this.websocket.send(JSON.stringify(sendBody))
-      this.msg = ""
+      if (this.fWechatId == "root001") {
+        this.handleRotMsg(this.msg);
+        this.msg = ""
+        return;
+      }
+      else {
+        this.websocket.send(JSON.stringify(sendBody))
+        this.msg = ""
+      }
     }
   }
-  chatInfo(){
+  chatInfo() {
     console.log(this.imgPath)
     this.router.navigate(['/chat-info'],
-        {
-          queryParams: { imgPath:this.imgPath,fUserName: this.fUserName }
-        });
+      {
+        queryParams: { imgPath: this.imgPath, fUserName: this.fUserName }
+      });
+  }
+  handleRotMsg(msg: any) {
+    let path = "https://api.ownthink.com/bot?spoken=spoken_text"
+
+    var body = { "spoken": msg, "appid": "xiaosi", "userid": "user" }
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        data =  data["data"]["info"].text;
+        this.chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "root001"))
+        // console.log(resBody.wechatId)
+        var body = { wechatId: "root001", imgPath: "img/head.png", msg: data }
+        this.chats.push(body);
+        localStorage.setItem(localStorage.getItem("wechatId") + "root001", JSON.stringify(this.chats))
+        
+        var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId")+"chats"))
+        for (var p in chatsGroup) {
+          if (chatsGroup[p].wechatId == "root001") {
+            chatsGroup[p].lastMsg = data
+          }
+        }
+        localStorage.setItem(localStorage.getItem("wechatId")+"chats", JSON.stringify(chatsGroup))
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+      });
   }
 }
