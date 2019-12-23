@@ -13,6 +13,9 @@ export class SettingsPage implements OnInit {
   ngOnInit() {
     this.version = globalVar.version
   }
+  /**
+   * 退出账号
+   */
   async quit() {
     const actionSheet = await this.actionSheetController.create({
       // header: 'Albums',
@@ -30,7 +33,7 @@ export class SettingsPage implements OnInit {
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });

@@ -7,7 +7,6 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { globalVar } from 'src/globalVar';
 import { Popover } from '../Common/popover';
-import { CommentComponentComponent } from '../comment-component/comment-component.component'
 
 @Component({
   selector: 'app-moments',
@@ -23,24 +22,37 @@ export class MomentsPage implements OnInit {
   backgroundImg:string;
   userName:any;
   wechatId:any;
+  
   ngOnInit() {
+    this.baseUrl = globalVar.baseUrl;
     this.userName = window.localStorage.getItem("userName");
     this.wechatId = window.localStorage.getItem("wechatId");
     this.imgPath = localStorage.getItem("imgPath")
-    this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
+    this.backgroundImg = localStorage.getItem("backgroundImg")
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.getMoments();
     })
   }
+  /**
+   * 
+   * @param event 刷新操作
+   */
   doRefresh(event) {
-    this.imgPath = globalVar.baseUrl+"/"+localStorage.getItem("imgPath")
-    this.backgroundImg = globalVar.baseUrl+"/"+localStorage.getItem("backgroundImg")
+    this.imgPath = localStorage.getItem("imgPath")
+    this.backgroundImg = localStorage.getItem("backgroundImg")
     this.getMoments();
     setTimeout(() => {
-      console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
   }
+  /**
+   * 展示信息
+   * @param wechatId 
+   * @param userName 
+   * @param imgPath 
+   * @param remarkName 
+   */
   showInfo(wechatId:any,userName:any,imgPath:any,remarkName:any){
     this.router.navigate(['/friend-card'],{
       queryParams:{
@@ -52,6 +64,9 @@ export class MomentsPage implements OnInit {
       }
     })
   }
+  /**
+   * 获得朋友圈内容
+   */
   getMoments(){
     let path = globalVar.baseUrl+"/moments/getMoments"
     this.baseUrl = globalVar.baseUrl;
@@ -61,16 +76,19 @@ export class MomentsPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        console.log(data["data"])
+        // console.log(data["data"])
         this.Moments = data["data"];
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
       });
   }
+  /**
+   * 
+   * @param backgroundImg 更新朋友圈封面
+   */
   updateBackgroundImg(backgroundImg:any){
     let path = globalVar.baseUrl+"/userInfo/updateBackgroundImg"
-    this.baseUrl = globalVar.baseUrl;
     const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
     .set("backgroundImg",backgroundImg)
 
@@ -87,6 +105,9 @@ export class MomentsPage implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
       });
   }
+  /**
+   * 选择图片
+   */
   async selectBackground(){
     const actionSheet = await this.actionSheetController.create({
       // header: 'Albums',
@@ -115,7 +136,7 @@ export class MomentsPage implements OnInit {
       // icon: 'close',
       role: 'cancel',
       handler: () => {
-        console.log('Cancel clicked');
+        // console.log('Cancel clicked');
       }
     }]
   })
@@ -143,10 +164,10 @@ export class MomentsPage implements OnInit {
           }
           this.camera.getPicture(options).then((imageData) => {
             let ImageBase = 'data:image/jpeg;base64,' + imageData;
-            console.log(ImageBase)
+            // console.log(ImageBase)
           }, (err) => {
            // Handle error
-           console.log("Camera issue:" + err);
+          //  console.log("Camera issue:" + err);
           });
         }
       }, {
@@ -164,7 +185,7 @@ export class MomentsPage implements OnInit {
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -174,6 +195,11 @@ export class MomentsPage implements OnInit {
     localStorage.setItem("momentId",id);
     // this.popor.presentPopover(CommentComponentComponent);
   }
+  /**
+   * 
+   * @param momentId 点赞操作
+   * @param wechatId 
+   */
   clickLike(momentId:any,wechatId:any){
     let path = globalVar.baseUrl+"/comments/clickLike"
     const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId",momentId).set("fWechatId",wechatId)
@@ -182,16 +208,24 @@ export class MomentsPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
+        // this.common.presentAlert(data["respMsg"])
+        this.getMoments()
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
       });
   }
-
+  /**
+   * 查看图片
+   * @param pictureId 
+   * @param pictures 
+   * @param picture 
+   * @param text 
+   * @param time 
+   */
   showPicInfo(pictureId:any,pictures:any,picture:any,text:any,time:any){
-    console.log(pictures)
-    console.log(picture)
+    // console.log(pictures)
+    // console.log(picture)
     this.router.navigate(['/picture-information'],{
       queryParams:{
         pictures:pictures,

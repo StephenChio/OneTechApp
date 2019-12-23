@@ -22,7 +22,7 @@ export class Tab3Page implements OnInit {
           _this.momentsNum == 0;
         }
         _this.momentsNum = _this.momentsNum + 1
-        console.log(_this.momentsNum)
+        // console.log(_this.momentsNum)
       }
     }
   }

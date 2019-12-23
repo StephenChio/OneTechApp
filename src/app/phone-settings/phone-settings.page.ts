@@ -18,6 +18,9 @@ export class PhoneSettingsPage implements OnInit {
   ionWillEnter(){
     this.phone = localStorage.getItem("phone")
   }
+  /**
+   * 跳转更改手机页面
+   */
   changePhoneNum(){
     this.router.navigate(['/change-phone-page'],{
       queryParams:{

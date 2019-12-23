@@ -36,15 +36,23 @@ export class PictureInformationPage implements OnInit {
       this.page = this.start + "/" + this.all
     });
   }
+  /**
+   * 
+   * @param i 下一张图片
+   */
   ionSlideNextEnd(i: any) {
     this.start = this.start + 1;
     this.page = this.start + "/" + this.all
-    console.log("next")
+    // console.log("next")
   }
+  /**
+   * 
+   * @param i 上一张图片
+   */
   ionSlidePrevEnd(i: any) {
     this.start = this.start - 1;
     this.page = this.start + "/" + this.all
-    console.log("prev")
+    // console.log("prev")
   }
   selectActionSheet(){
     if(this.type=="personal"){
@@ -82,7 +90,7 @@ export class PictureInformationPage implements OnInit {
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -121,22 +129,24 @@ export class PictureInformationPage implements OnInit {
         text: '删除',
         // icon: 'arrow-dropright-circle',
         handler: () => {
-          this.presentAlertConfirm()
-          console.log('Play clicked');
+          this.deleteConfirm()
+          // console.log('Play clicked');
         }
       }, {
         text: '取消',
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
     await actionSheet.present();
   }
-
-  async presentAlertConfirm() {
+  /**
+   * 删除确认窗口
+   */
+  async deleteConfirm() {
     const alert = await this.alertController.create({
       message: "与这张照片同时发布的一组照片都会被删除",
       buttons: [
@@ -145,7 +155,7 @@ export class PictureInformationPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            // console.log('Confirm Cancel: blah');
           }
         }, {
           text: '全部删除',
@@ -157,6 +167,9 @@ export class PictureInformationPage implements OnInit {
     });
     await alert.present();
   }
+  /**
+   * 删除朋友圈
+   */
   deleteMomentsPicture() {
     let path = globalVar.baseUrl + "/moments/deleteMomentsPicture"
 

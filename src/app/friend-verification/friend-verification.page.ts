@@ -18,6 +18,10 @@ export class FriendVerificationPage implements OnInit {
   //   this.common.presentAlertConfirm("确认是否发送验证消息",this.sendVerification,this.verificationMsg);
 
   // }
+  
+  /**
+   * 发送好友验证消息
+   */
   sendVerification() {
     let path = globalVar.baseUrl+"/addressList/sendVerification";
     if(this.verificationMsg==null){

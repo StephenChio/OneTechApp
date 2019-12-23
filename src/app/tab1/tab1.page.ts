@@ -88,6 +88,10 @@ export class Tab1Page implements OnInit {
       }
     }
   }
+  /**
+   * 
+   * @param msg 退出账号
+   */
   async quit(msg: any) {
     const alert = await this.alertController.create({
       header: '确认',
@@ -102,6 +106,9 @@ export class Tab1Page implements OnInit {
     });
     await alert.present();
   }
+  /**
+   * 隐藏界面
+   */
   hide() {
     var title = document.getElementById("tab1Title");
     var chatList = document.getElementById("chatList");
@@ -109,8 +116,11 @@ export class Tab1Page implements OnInit {
     title.style.display = "none";
     chatList.style.display = "none";
     searchChatList.style.removeProperty("display");
-    console.log("hide")
+    // console.log("hide")
   }
+  /**
+   * 展示界面
+   */
   show() {
     var title = document.getElementById("tab1Title");
     var chatList = document.getElementById("chatList");
@@ -119,8 +129,14 @@ export class Tab1Page implements OnInit {
     chatList.style.removeProperty("display");
     searchChatList.style.display = "none";
     this.searchChatList = [];
-    console.log("show")
+    // console.log("show")
   }
+  /**
+   * 进入聊天室
+   * @param fUserName 
+   * @param fWechatId 
+   * @param imgPath 
+   */
   showChat(fUserName: any, fWechatId: any, imgPath: any) {
     localStorage.setItem('fUserName', fUserName);
     localStorage.setItem('fWechatId', fWechatId);
@@ -137,6 +153,9 @@ export class Tab1Page implements OnInit {
         queryParams: { imgPath: imgPath ,name:fUserName}
       });
   }
+  /**
+   * 弹出选项卡
+   */
   presentPopover() {
     this.popor.presentPopover(PopComponentComponent);
   }
@@ -146,13 +165,21 @@ export class Tab1Page implements OnInit {
   ionViewWillEnter() {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
   }
+  /**
+   * 
+   * @param event 刷新
+   */
   doRefresh(event) {
     this.ngOnInit()
     setTimeout(() => {
-      console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
   }
+  /**
+   * 
+   * @param wechatId 移除聊天
+   */
   removeChat(wechatId) {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
     for (var p in this.chatsGroup) {
@@ -164,17 +191,20 @@ export class Tab1Page implements OnInit {
       }
     }
   }
+  /**
+   * 搜索聊天
+   */
   searchChat() {
     if (this.searchText == "") {
       return;
     }
     this.searchChatList = [];
-    console.log(this.searchText);
+    // console.log(this.searchText);
     for (var p in this.chatsGroup) {
       if (this.chatsGroup[p].fUserName.match(this.searchText) || this.chatsGroup[p].lastMsg.match(this.searchText) || this.chatsGroup[p].wechatId.match(this.searchText)) {
         this.searchChatList.push(this.chatsGroup[p]);
       }
     }
-    console.log(this.searchChatList)
+    // console.log(this.searchChatList)
   }
 }

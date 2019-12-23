@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="type=='发消息'" slot="end">
       <ion-button [routerLink]="['/friend-settings']">
         <ion-icon slot="icon-only" name="more"></ion-icon>
       </ion-button>
@@ -33,7 +33,7 @@
       </ion-card-header>
     </ion-card>
   </ion-item>
-  <ion-item [routerLink] = "['/remakers-and-tag']">
+  <ion-item *ngIf="type=='发消息'" [routerLink] = "['/remakers-and-tag']">
     <ion-label>设置备注和标签</ion-label>
   </ion-item>
   <ion-list>
@@ -43,7 +43,7 @@
         <img style="width: 80px;height: 80px;object-fit: cover;" src = "{{baseUrl}}/{{img}}">
       </div>
     </ion-item>
-    <ion-item [routerLink] = "['/social-information']">
+    <ion-item *ngIf="type=='发消息'"  [routerLink] = "['/social-information']">
       <ion-label>更多信息</ion-label>
     </ion-item>
   </ion-list>

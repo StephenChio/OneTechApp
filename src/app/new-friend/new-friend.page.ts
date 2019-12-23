@@ -10,15 +10,18 @@ import { globalVar } from 'src/globalVar';
 })
 export class NewFriendPage implements OnInit {
 
-  constructor(private globalVar:globalVar,private http: HttpClient, private common:Common) { }
+  constructor(private globalVar: globalVar, private http: HttpClient, private common: Common) { }
   newFriend = []
-  baseUrl:string;
+  baseUrl: string;
   ngOnInit() {
     this.baseUrl = globalVar.baseUrl;
     this.getNewFriend()
   }
+  /**
+   * 获取好友申请
+   */
   getNewFriend() {
-    let path = globalVar.baseUrl+"/addressList/getNewFriend"
+    let path = globalVar.baseUrl + "/addressList/getNewFriend"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
     let httpOptions = {
@@ -26,15 +29,10 @@ export class NewFriendPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        if (data["respCode"] == "00") {
-          this.newFriend = data["data"];
-        }
-        else {
-          console.log(data["respMsg"]);
-        }
+        this.newFriend = data["data"];
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试");
-      })
+        })
   }
 }

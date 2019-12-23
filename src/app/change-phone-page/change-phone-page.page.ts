@@ -19,6 +19,10 @@ export class ChangePhonePagePage implements OnInit {
       this.phone = data.phone;
     })
   }
+  /**
+   * 修改手机
+   * @param phone 
+   */
   checkPhoneUsed(phone:any):boolean{
     let path = globalVar.baseUrl + "/checkPhoneUsed"
     const body = new HttpParams().set("phone", phone)
@@ -38,6 +42,12 @@ export class ChangePhonePagePage implements OnInit {
       );
     return false;
   }
+  /**
+   * 下一步
+   * 判断手机合法性
+   * 判断手机是否重复绑定
+   * 判断手机重复使用
+   */
   nextStep(){
     var re = /^(13[0-9]{9})|(15[89][0-9]{8})$/;
     if (!re.test(this.newPhone)) {
@@ -54,6 +64,9 @@ export class ChangePhonePagePage implements OnInit {
     }
     this.sendVerifiCode()
   }
+  /**
+   * 发送验证码
+   */
   sendVerifiCode(){
     let path = globalVar.baseUrl + "/getVerifiCode"
     const body = new HttpParams().set("phone", this.newPhone)

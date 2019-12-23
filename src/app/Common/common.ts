@@ -9,6 +9,10 @@ export class Common {
   constructor(private alertController: AlertController) {
 
   }
+  /**
+   * 
+   * @param msg 通用弹出通知组件
+   */
   async presentAlert(msg: any) {
     const alert = await this.alertController.create({
       header: '确认',
@@ -40,6 +44,10 @@ export class Common {
     });
     await alert.present();
   }
+  /**
+   * 获取32位随机码
+   * @param len 
+   */
   getRandomString(len) {
     len = len || 32;
     var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/

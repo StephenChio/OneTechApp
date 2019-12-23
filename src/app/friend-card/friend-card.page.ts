@@ -24,7 +24,7 @@ export class FriendCardPage implements OnInit {
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.wechatId = data.wechatId;  //上个页面传过来的值
       this.imgPath = data.imgPath;
-      console.log(data.remarkName)
+      // console.log(data.remarkName)
       if(typeof(data.remarkName)!="undefined"){
         this.name = data.remarkName
         this.userName = data.userName;
@@ -40,10 +40,13 @@ export class FriendCardPage implements OnInit {
         this.type = "发消息";
       }
       localStorage.setItem("fWechatId", this.wechatId)
-      localStorage.setItem("fUserName", this.userName)
+      localStorage.setItem("fUserName", this.name)
     })
     this.get4MomentsImgByWechatId();
   }
+  /**
+   * 得到用户最近4张朋友圈预览图片
+   */
   get4MomentsImgByWechatId() {
     let path = globalVar.baseUrl + "/resource/get4MomentsImgByWechatId"
     const body = new HttpParams()
@@ -59,6 +62,9 @@ export class FriendCardPage implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
         })
   }
+  /**
+   * 页面调整
+   */
   friendVerification() {
     if (this.type == "确认添加") {
       this.addConfirm()
@@ -74,6 +80,9 @@ export class FriendCardPage implements OnInit {
       this.router.navigate(['/friend-verification'])
     }
   }
+  /**
+   * 确认添加好友
+   */
   addConfirm() {
     let path = globalVar.baseUrl + "/addressList/addConfirm"
     const body = new HttpParams()

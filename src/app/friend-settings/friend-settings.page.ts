@@ -15,6 +15,9 @@ export class FriendSettingsPage implements OnInit {
   ngOnInit() {
   }
   isBlack = false;
+  /**
+   * 删除好友
+   */
   deleteFriend() {
     let path = globalVar.baseUrl+"/addressList/deleteFriend";
     const body = new HttpParams()
@@ -35,6 +38,10 @@ export class FriendSettingsPage implements OnInit {
   addBlack(){
     
   }
+  /**
+   * 移除聊天内容
+   * @param wechatId 
+   */
   removeChat(wechatId:any){
     var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId")+"chats"));
     for(var p in chatsGroup){

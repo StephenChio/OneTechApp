@@ -94,7 +94,7 @@ export class VerifiPagePage implements OnInit {
         if (data["respCode"] == "00") {
           var storage = window.localStorage;
           var data = data["data"];
-          console.log(data)
+          // console.log(data)
           // const user_token = {wechatId:data["wechatId"],time:new Date}
           storage.setItem("user_token", data["wechatId"]);
           storage.setItem("userName", data["userName"]);
@@ -103,10 +103,11 @@ export class VerifiPagePage implements OnInit {
           storage.setItem("phone", data["phone"]);
           storage.setItem("backgroundImg", data["backgroundImg"]);
           // console.log(data);
-          if (data["passWord"] == null) {
+          storage.setItem("hasPassword", data["hasPassword"]);
+          if (data["hasPassword"] == false) {
             this.router.navigate(['/set-password'],
               {
-                queryParams: { type: "init" }
+                queryParams: { hasPassword: data["hasPassword"] }
               }
             )
           }
@@ -147,7 +148,7 @@ export class VerifiPagePage implements OnInit {
         // role: 'destructive',
         // icon: 'trash',
         handler: () => {
-          console.log(this.useVerifiCode + "|" + this.usePassword)
+          // console.log(this.useVerifiCode + "|" + this.usePassword)
           if (this.useVerifiCode) {
             this.useVerifiCode = false;
             this.usePassword = true;
@@ -162,7 +163,7 @@ export class VerifiPagePage implements OnInit {
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });

@@ -44,8 +44,14 @@ export class ChatPagePage implements OnInit {
       }
       localStorage.setItem(this.wechatId + "chats", JSON.stringify(chatsGroup))
     }
+    /**
+     * websocket连接
+     */
     const url = "/websocket/socketServer?WS_NAME=chatPage" + "and" + localStorage.getItem("wechatId") + "and" + localStorage.getItem("fWechatId")
     this.websocket = this.ws.createObservableSocket(url)
+    /**
+     * websocket连接响应
+     */
     this.websocket.onmessage = function (event: any) {
       // alert("收到消息")
       //   if(event.data == "02"){
@@ -78,9 +84,15 @@ export class ChatPagePage implements OnInit {
       localStorage.setItem(resBody.fWechatId + "chats", JSON.stringify(chatsGroup))
     }
   }
+  /**
+   * 离开页面时关闭长链接
+   */
   ionViewWillLeave() {
     this.websocket.close();
   }
+  /**
+   * 发送消息
+   */
   sendMsg() {
     if (this.msg == null || this.msg == '') {
       return;
@@ -115,6 +127,9 @@ export class ChatPagePage implements OnInit {
       }
     }
   }
+  /**
+   * 打开聊天消息设置
+   */
   chatInfo() {
     console.log(this.imgPath)
     this.router.navigate(['/chat-info'],
@@ -122,6 +137,10 @@ export class ChatPagePage implements OnInit {
         queryParams: { imgPath: this.imgPath, fUserName: this.fUserName }
       });
   }
+  /**
+   * 处理机器人聊天
+   * @param msg 
+   */
   handleRotMsg(msg: any) {
     let path = "https://api.ownthink.com/bot?spoken=spoken_text"
 

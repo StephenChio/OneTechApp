@@ -13,6 +13,9 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
   phone: string;
+  /**
+   * 验证手机合法性 跳转登陆页面
+   */
   login() {
     var re = /^(13[0-9]{9})|(15[89][0-9]{8})$/;
     if (!re.test(this.phone)) {
@@ -20,7 +23,7 @@ export class LoginPage implements OnInit {
       return false;
     }
     else {
-      console.log(this.phone)
+      // console.log(this.phone)
       this.router.navigate(['/verifi-page'],{
         queryParams: { phone: this.phone }
       })

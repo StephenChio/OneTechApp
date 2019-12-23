@@ -15,11 +15,16 @@ export class RemakersAndTagPage implements OnInit {
   phone:any
   describe:any
   ngOnInit() {
+    this.remarkName = localStorage.getItem("fUserName")
   }
+  /**
+   * 更新备注
+   */
   updateRemakers(){
     let path = globalVar.baseUrl + "/remark/updateRemakers"
-    if(this.remarkName==null){
-      this.remarkName = "";
+    if(this.remarkName==null || this.remarkName == ""){
+      this.common.presentAlert("备注姓名请勿为空")
+      return;
     }
     if(this.phone==null){
       this.phone = "";

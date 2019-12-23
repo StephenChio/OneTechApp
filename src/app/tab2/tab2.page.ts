@@ -32,20 +32,30 @@ export class Tab2Page implements OnInit {
           _this.msgNum = 0;
         }
         _this.msgNum = _this.msgNum + 1
-        console.log(_this.msgNum)
+        // console.log(_this.msgNum)
       }
     }
   }
+  /**
+   * 
+   * @param event 刷新
+   */
   doRefresh(event) {
     this.getFriendList();
     setTimeout(() => {
-      console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
   }
+  /**
+   * 进入时操作
+   */
   ionViewWillEnter() {
     this.getFriendList()
   }
+  /**
+   * 获取好友列表
+   */
   getFriendList() {
     let path = globalVar.baseUrl + "/addressList/getFriendList"
     const body = new HttpParams()
@@ -55,10 +65,9 @@ export class Tab2Page implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        if (data["respCode"] == "00") {
           var data = data["data"];
           this.friendLists = data;
-          console.log(data)
+          // console.log(data)
           this.list = [];
           this.remarklist = [];
           for (var i = 0; i < 26; i++) {
@@ -82,11 +91,7 @@ export class Tab2Page implements OnInit {
           }
           localStorage.setItem(localStorage.getItem("wechatId")+"remarkList",JSON.stringify(this.remarklist))
           // console.log(this.list);
-        }
-        else {
-          console.log(data["respMsg"]);
-        }
-      },
+        },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         })
@@ -104,7 +109,7 @@ export class Tab2Page implements OnInit {
     friendList.style.display = "none"
     tab2Info.style.display = "none"
     searchFriendList.style.removeProperty("display")
-    console.log("hide")
+    // console.log("hide")
   }
   show() {
     var title = document.getElementById("tab2Title");
@@ -116,8 +121,12 @@ export class Tab2Page implements OnInit {
     tab2Info.style.removeProperty("display")
     searchFriendList.style.display = "none"
     this.searchFriendList = [];
-    console.log("show")
+    // console.log("show")
   }
+  /**
+   * 
+   * @param wechatId 删除好友
+   */
   deleteFriend(wechatId: any) {
     let path = globalVar.baseUrl + "/addressList/deleteFriend"
     const body = new HttpParams()
@@ -135,6 +144,10 @@ export class Tab2Page implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
         })
   }
+  /**
+   * 
+   * @param wechatId 移除聊天室
+   */
   removeChat(wechatId: any) {
     var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
     for (var p in chatsGroup) {
@@ -146,19 +159,24 @@ export class Tab2Page implements OnInit {
       }
     }
   }
+  /**
+   * 搜索好友
+   */
   searchFriend() {
     if(this.searchText==""){
       return;
     }
+    // console.log(this.friendLists)
     this.searchFriendList = [];
-    console.log(this.searchText);
+    // console.log(this.searchText);
     for (var j in this.list) {
       for (var p in this.friendLists[this.list[j]]) {
-        if (this.friendLists[this.list[j]][p].userName.match(this.searchText) || this.friendLists[this.list[j]][p].phone.match(this.searchText) || this.friendLists[this.list[j]][p].wechatId.match(this.searchText)) {
+        if (this.friendLists[this.list[j]][p].remarkName.match(this.searchText) || this.friendLists[this.list[j]][p].userName.match(this.searchText) || this.friendLists[this.list[j]][p].wechatId.match(this.searchText)) {
           this.searchFriendList.push(this.friendLists[this.list[j]][p])
+          break
         }
       }
     }
-    console.log(this.searchFriendList)
+    // console.log(this.searchFriendList)
   }
 }

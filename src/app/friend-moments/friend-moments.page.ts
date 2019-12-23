@@ -25,6 +25,10 @@ export class FriendMomentsPage implements OnInit {
       this.getFriendMoments(this.wechatId);
     })
   }
+  /**
+   * 得到用户朋友圈内容
+   * @param wechatId 
+   */
   getFriendMoments(wechatId:any){
     let path = globalVar.baseUrl+"/moments/getMomentsByWechatId"
 
@@ -34,7 +38,7 @@ export class FriendMomentsPage implements OnInit {
       }
       this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        console.log(data)
+        // console.log(data)
         this.Moments = data["data"];
         this.imgPath = globalVar.baseUrl+"/"+data["data"][0].imgPath;
         this.userName = data["data"][0].userName;

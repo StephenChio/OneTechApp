@@ -34,7 +34,7 @@ export class AlbumPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        console.log(data)
+        // console.log(data)
         this.Moments = data["data"];
         this.imgPath = globalVar.baseUrl + "/" + data["data"][0].imgPath;
         this.userName = data["data"][0].userName;
@@ -46,8 +46,8 @@ export class AlbumPage implements OnInit {
         });
   }
   showPicInfo(pictureId:any,pictures:any,picture:any,text:any,time:any,type:any){
-    console.log(pictures)
-    console.log(picture)
+    // console.log(pictures)
+    // console.log(picture)
     this.router.navigate(['/picture-information'],{
       queryParams:{
         pictures:pictures,

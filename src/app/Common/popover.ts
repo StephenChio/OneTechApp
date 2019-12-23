@@ -6,6 +6,9 @@ export class Popover {
   constructor(private popoverController: PopoverController) {
 
   }
+  /**
+   * 弹窗组件
+   */
   currentPopover = null;
   async presentPopover(PopComponentComponent:any) {
     const popover = await this.popoverController.create({

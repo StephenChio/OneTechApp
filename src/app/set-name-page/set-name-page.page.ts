@@ -15,6 +15,9 @@ export class SetNamePagePage implements OnInit {
   ngOnInit() {
     this.userName = window.localStorage.getItem("userName");
   }
+  /**
+   * 修改昵称
+   */
   updateName() {
     let path = globalVar.baseUrl+"/userInfo/updateName"
     const body = new HttpParams()

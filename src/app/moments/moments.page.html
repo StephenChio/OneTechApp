@@ -55,7 +55,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <img class="titlePicture" (click)="selectBackground()" src="{{backgroundImg}}">
+  <img class="titlePicture" (click)="selectBackground()" src="{{baseUrl}}/{{backgroundImg}}">
   <img class="head" (click)="showInfo(wechatId,userName,imgPath)" src="{{baseUrl}}/{{imgPath}}">
   <div style="position: absolute; top: 60%;">
     <ion-list *ngFor="let moments of Moments">

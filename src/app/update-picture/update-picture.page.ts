@@ -33,12 +33,12 @@ export class UpdatePicturePage implements OnInit {
           }
           this.camera.getPicture(option)
             .then((imgUrl) => {
-              console.log(imgUrl);
+              // console.log(imgUrl);
             })
             .catch((err) => {
-              console.log(err)
+              // console.log(err)
             })
-          console.log('Delete clicked');
+          // console.log('Delete clicked');
         }
       }, {
         text: '相册',
@@ -83,14 +83,14 @@ export class UpdatePicturePage implements OnInit {
         text: '保存',
         // icon: 'arrow-dropright-circle',
         handler: () => {
-          console.log('Play clicked');
+          // console.log('Play clicked');
         }
       }, {
         text: '取消',
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
