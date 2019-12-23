@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="type!=='init'" slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">设置备注和标签</ion-title>
+    <ion-button slot="end" [disabled]="disabledClick" style="position: absolute;right: 0rem;height: 2rem;"
+      color="success" (click)="updateRemakers()">完成
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <p style="font-size: 14px;opacity: 0.5;">备注名</p>
+  <ion-item style="--border-width:0">
+    <ion-input [(ngModel)]="remarkName"></ion-input>
+  </ion-item>
+
+  <p style="font-size: 14px;opacity: 0.5;">标签</p>
+  <ion-item [routerLink]="['/set-tag']">
+    <ion-label style="opacity: 0.7;">通过标签给联系人进行分类</ion-label>
+  </ion-item>
+
+  <p style="font-size: 14px;opacity: 0.5;">电话号码</p>
+  <ion-item style="--border-width:0">
+    <ion-input [(ngModel)]="phone"></ion-input>
+  </ion-item>
+
+
+  <p style="font-size: 14px;opacity: 0.5;">描述</p>
+  <ion-item style="--border-width:0">
+    <ion-input [(ngModel)]="describe"></ion-input>
+  </ion-item>
+</ion-content>

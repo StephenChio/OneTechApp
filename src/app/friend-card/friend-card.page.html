@@ -27,12 +27,13 @@
     <ion-card style="display:flex;box-shadow:0 4px 16px rgba(0,0,0,0);" class="welcome-card">
       <img class="img" src="{{baseUrl}}/{{imgPath}}" alt="" />
       <ion-card-header>
-        <ion-card-title style="margin-bottom: 1rem;">{{userName}}</ion-card-title>
+        <ion-card-title style="margin-bottom: 1rem;">{{name}}</ion-card-title>
+        <ion-card-subtitle *ngIf="userName">昵称:{{userName}}</ion-card-subtitle>
         <ion-card-subtitle>微信号:{{wechatId}}</ion-card-subtitle>
       </ion-card-header>
     </ion-card>
   </ion-item>
-  <ion-item>
+  <ion-item [routerLink] = "['/remakers-and-tag']">
     <ion-label>设置备注和标签</ion-label>
   </ion-item>
   <ion-list>
@@ -42,7 +43,7 @@
         <img style="width: 80px;height: 80px;object-fit: cover;" src = "{{baseUrl}}/{{img}}">
       </div>
     </ion-item>
-    <ion-item>
+    <ion-item [routerLink] = "['/social-information']">
       <ion-label>更多信息</ion-label>
     </ion-item>
   </ion-list>

@@ -18,6 +18,7 @@ export class Tab2Page implements OnInit {
   searchText: any;
   list = [];
   searchFriendList = [];
+  remarklist = [];
   constructor(private router: Router, private globalVar: globalVar, private http: HttpClient, private common: Common, private ws: WebSocketService) { }
   ngOnInit() {
     var _this = this;
@@ -57,17 +58,29 @@ export class Tab2Page implements OnInit {
         if (data["respCode"] == "00") {
           var data = data["data"];
           this.friendLists = data;
-          // console.log(data)
+          console.log(data)
           this.list = [];
+          this.remarklist = [];
           for (var i = 0; i < 26; i++) {
             if (data[String.fromCharCode(65 + i)] != null) {//小写字母97开始
               // console.log(String.fromCharCode(65 + i))
               this.list.push(String.fromCharCode(65 + i))
+              for(var j = 0;j<data[String.fromCharCode(65 + i)].length;j++){
+                if(data[String.fromCharCode(65 + i)][j].remarkName!=null){
+                  this.remarklist.push(data[String.fromCharCode(65 + i)][j])
+                }
+              }
             }
           }
           if (data["#"] != null) {
+            for(var j = 0;j<data["#"].length;j++){
+              if(data["#"][j].remarkName!=null){
+                this.remarklist.push(data["#"][j])
+              }
+            }
             this.list.push("#");
           }
+          localStorage.setItem(localStorage.getItem("wechatId")+"remarkList",JSON.stringify(this.remarklist))
           // console.log(this.list);
         }
         else {

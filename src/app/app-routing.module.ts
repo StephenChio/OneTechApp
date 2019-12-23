@@ -39,6 +39,9 @@ const routes: Routes = [
   { path: 'set-password', loadChildren: './set-password/set-password.module#SetPasswordPageModule' },
   { path: 'about', loadChildren: './about/about.module#AboutPageModule' },
   { path: 'picture-information', loadChildren: './picture-information/picture-information.module#PictureInformationPageModule' },
+  { path: 'remakers-and-tag', loadChildren: './remakers-and-tag/remakers-and-tag.module#RemakersAndTagPageModule' },
+  { path: 'social-information', loadChildren: './social-information/social-information.module#SocialInformationPageModule' },
+  { path: 'set-tag', loadChildren: './set-tag/set-tag.module#SetTagPageModule' },
 ];
 @NgModule({
   imports: [

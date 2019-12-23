@@ -61,11 +61,14 @@
     <ion-list *ngFor="let moments of Moments">
       <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
         <ion-item class="box">
-          <img class="fhead" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)"
+          <img class="fhead" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath,moments.remarkName)"
             src="{{baseUrl}}/{{moments.imgPath}}">
           <div class="context">
-            <ion-card-subtitle color="primary" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)">
+            <ion-card-subtitle *ngIf="moments.remarkName==null" color="primary" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)">
               {{moments.userName}}</ion-card-subtitle>
+
+            <ion-card-subtitle *ngIf="moments.remarkName" color="primary" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath,moments.remarkName)">
+                  {{moments.remarkName}}</ion-card-subtitle>
             <ion-card-subtitle>
               {{moments.text}}
             </ion-card-subtitle>
@@ -103,8 +106,8 @@
             <div *ngIf="null !== moments.likeName" style="display: flex;">
               <ion-icon style = "margin-right: 0.25rem;" color="primary" name="heart-empty"></ion-icon>
               <div *ngFor="let name of moments.likeName">
-                <ion-card-subtitle color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath)">{{name.userName}}
-                </ion-card-subtitle>
+                <ion-card-subtitle *ngIf="name.remarkName" color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath,name.remarkName)">{{name.remarkName}}</ion-card-subtitle>
+                <ion-card-subtitle *ngIf="name.remarkName==null" color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath)">{{name.userName}}</ion-card-subtitle>
               </div>
             </div>
           </div>

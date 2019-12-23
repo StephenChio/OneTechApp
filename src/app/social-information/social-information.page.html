@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="type!=='init'" slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">社交资料</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color = "light">
+  <ion-list style="margin-bottom: 1rem;">
+    <ion-item>
+      <ion-label>我和他的共同群聊</ion-label>
+      <ion-input [(ngModel)]="tag"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label>个性签名</ion-label>
+      <ion-input [(ngModel)]="tag"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>来源</ion-label>
+      <ion-input [(ngModel)]="phone"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>

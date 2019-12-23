@@ -41,12 +41,13 @@ export class MomentsPage implements OnInit {
       event.target.complete();
     }, 1000);
   }
-  showInfo(wechatId:any,userName:any,imgPath:any){
+  showInfo(wechatId:any,userName:any,imgPath:any,remarkName:any){
     this.router.navigate(['/friend-card'],{
       queryParams:{
         wechatId:wechatId,
         userName:userName,
         imgPath:imgPath,
+        remarkName:remarkName,
         type:"sendMsg"
       }
     })

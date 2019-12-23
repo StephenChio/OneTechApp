@@ -25,6 +25,15 @@ export class Tab1Page implements OnInit {
     var _this = this
     this.baseUrl = globalVar.baseUrl;
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
+    var remarkList = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "remarkList"))
+    for (var p in this.chatsGroup) {
+      for(var k in remarkList){
+        if(remarkList[k].wechatId == this.chatsGroup[p].wechatId){
+          this.chatsGroup[p].fUserName = remarkList[k].remarkName
+        }
+      }
+    }
+    localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(this.chatsGroup))
     const url = "/websocket/socketServer?WS_NAME=tab1" +"and"+ localStorage.getItem("wechatId")
     if (this.websocket == null) {
       this.websocket = this.ws.createObservableSocket(url)
@@ -34,6 +43,12 @@ export class Tab1Page implements OnInit {
         if (resBody == "1001") {
           _this.quit("该账号在别地登陆,如非本人操作,请检查账号或咨询客服");
         } else {
+          var remarkList = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "remarkList"))
+          for(var p in remarkList){
+            if(remarkList[p].wechatId == resBody.wechatId){
+              resBody.userName = remarkList[p].remarkName
+            }
+          }
           var chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + resBody.wechatId))
           var body = { wechatId: resBody.wechatId, imgPath: resBody.imgPath, msg: resBody.msg }
           _this.chatsGroup = JSON.parse(localStorage.getItem(resBody.fWechatId + "chats"))
@@ -54,6 +69,7 @@ export class Tab1Page implements OnInit {
             for (var p in _this.chatsGroup) {
               if (_this.chatsGroup[p].wechatId == resBody.wechatId) {
                 _this.chatsGroup[p].lastMsg = resBody.msg
+                _this.chatsGroup[p].fUserName = resBody.userName
                 if (_this.chatsGroup[p].msgNum == null) {
                   _this.chatsGroup[p].msgNum = 1
                 }
@@ -118,7 +134,7 @@ export class Tab1Page implements OnInit {
     localStorage.setItem(wechatId + "chats", JSON.stringify(this.chatsGroup))
     this.router.navigate(['/chat-page'],
       {
-        queryParams: { imgPath: imgPath }
+        queryParams: { imgPath: imgPath ,name:fUserName}
       });
   }
   presentPopover() {
@@ -131,6 +147,7 @@ export class Tab1Page implements OnInit {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
   }
   doRefresh(event) {
+    this.ngOnInit()
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
