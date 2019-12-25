@@ -6,21 +6,15 @@
     <ion-title>账号与安全</ion-title>
   </ion-toolbar>
 </ion-header>
-<style>
-  ion-list {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem
-  }
-</style>
 <ion-content color="light">
   <ion-list lines="none">
     <ion-item >
       <ion-label >微信号</ion-label>
-      <ion-label slot="end" style="text-align: right;">{{wechatId}}</ion-label>
+      <ion-label slot="end" class="wechatId">{{wechatId}}</ion-label>
     </ion-item>
     <ion-item [routerLink]="['/phone-settings']" [queryParams]="{phone:phone}">
       <ion-label >手机号</ion-label>
-      <ion-label slot="end" style="text-align: right;">{{phone}}</ion-label>
+      <ion-label slot="end" class="phone">{{phone}}</ion-label>
     </ion-item>
   </ion-list>
   <ion-list lines="none">

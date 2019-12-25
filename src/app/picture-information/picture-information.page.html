@@ -12,8 +12,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content color="dark">
-  <div style="margin-top: 20%;">
-    <p style="margin: 0;text-align: center;background: #222428; color:white;">{{page}}</p>
+  <div style="margin-top: 3rem;">
+    <p style="margin-bottom: 1rem;text-align: center;background: #222428; color:white;opacity: 0.7;">{{page}}</p>
     <ion-slides (ionSlidePrevEnd)="ionSlidePrevEnd()" (ionSlideNextEnd)="ionSlideNextEnd()">
       <ion-slide *ngFor="let ps of pictures;index as i">
         <img src="{{baseUrl}}/{{pictures[i]}}" />
@@ -22,6 +22,15 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <p style="margin: 0;background: #222428; color:white;">{{text}}</p>
+<ion-footer style="background: #222428;">
+  <p style="margin-bottom: 1rem;color:white;">{{text}}</p>
+  <ion-item color="dark">
+    <ion-icon (click)="clickLike()" name="heart-empty"></ion-icon>
+    <ion-label style="max-width: 1rem;">赞</ion-label>
+    <ion-icon name="text"></ion-icon>
+    <ion-label style="max-width: 1rem;">评论</ion-label>
+
+     <ion-icon (click)="showDetail()" slot="end" name="heart-empty"></ion-icon>
+     <ion-icon (click)="showDetail()" slot="end" name="text"></ion-icon>
+  </ion-item>
 </ion-footer>

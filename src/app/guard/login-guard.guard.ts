@@ -16,7 +16,7 @@ export class LoginGuardGuard implements CanActivate{
    * @param state 
    */
   canActivate(route:ActivatedRouteSnapshot,state:RouterStateSnapshot):boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    console.log("login")
+    // console.log("login")
     const token = window.localStorage.getItem('user_token');
     if (token == null || token === undefined) {
       this.router.navigate(['/login']);

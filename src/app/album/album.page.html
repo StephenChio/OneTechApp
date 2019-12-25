@@ -32,7 +32,7 @@
             <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap;width: 258px;">
               <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
                 style="display:inline-block;width:80px;height:80px;margin: 3px;">
-                <img (click)="showPicInfo(moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime,'personal')" style="width:80px;height:80px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+                <img (click)="showPicInfo(moments.id,moments.wechatId,moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime)" style="width:80px;height:80px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
               </div>
             </div>
           </div>

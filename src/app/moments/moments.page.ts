@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { Common } from '../Common/common';
@@ -15,7 +15,7 @@ import { Popover } from '../Common/popover';
 })
 export class MomentsPage implements OnInit {
 
-  constructor(private popor:Popover,private activatedRoute:ActivatedRoute,private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
+  constructor(private alertController:AlertController,private popor:Popover,private activatedRoute:ActivatedRoute,private globalVar:globalVar, private imagePicker:ImagePicker,private camera:Camera, private actionSheetController: ActionSheetController, private router: Router, private http: HttpClient, private common: Common) { }
   imgPath: string;
   Moments:any;
   baseUrl:string;
@@ -223,17 +223,58 @@ export class MomentsPage implements OnInit {
    * @param text 
    * @param time 
    */
-  showPicInfo(pictureId:any,pictures:any,picture:any,text:any,time:any){
+  showPicInfo(momentId:any,wechatId:any,pictureId:any,pictures:any,picture:any,text:any,time:any){
     // console.log(pictures)
     // console.log(picture)
     this.router.navigate(['/picture-information'],{
       queryParams:{
+        wechatId:wechatId,
         pictures:pictures,
         picture:picture,
         time:time,
         pictureId:pictureId,
-        text:text
+        text:text,
+        momentId:momentId
       }
     })
+  }
+ /**
+   * 删除确认窗口
+   */
+  async deleteConfirm(id:any) {
+    const alert = await this.alertController.create({
+      message: "确认删除吗?",
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            // console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: '删除',
+          handler: () => {
+            this.deleteMomentsById(id)
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  deleteMomentsById(id:any){
+    let path = globalVar.baseUrl+"/moments/deleteMomentsById"
+    const body = new HttpParams().set("id", id)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        // this.common.presentAlert(data["respMsg"])
+        this.getMoments()
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+      });
   }
 }

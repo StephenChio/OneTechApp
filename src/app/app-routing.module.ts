@@ -42,6 +42,7 @@ const routes: Routes = [
   { path: 'remakers-and-tag', loadChildren: './remakers-and-tag/remakers-and-tag.module#RemakersAndTagPageModule' },
   { path: 'social-information', loadChildren: './social-information/social-information.module#SocialInformationPageModule' },
   { path: 'set-tag', loadChildren: './set-tag/set-tag.module#SetTagPageModule' },
+  { path: 'moment-information', loadChildren: './moment-information/moment-information.module#MomentInformationPageModule' },
 ];
 @NgModule({
   imports: [

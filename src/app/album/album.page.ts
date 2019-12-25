@@ -45,17 +45,18 @@ export class AlbumPage implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
         });
   }
-  showPicInfo(pictureId:any,pictures:any,picture:any,text:any,time:any,type:any){
+  showPicInfo(momentId:any,wechatId:any,pictureId:any,pictures:any,picture:any,text:any,time:any){
     // console.log(pictures)
-    // console.log(picture)
+    // console.log(momentId)
     this.router.navigate(['/picture-information'],{
       queryParams:{
+        wechatId:wechatId,
         pictures:pictures,
         picture:picture,
         time:time,
         pictureId:pictureId,
         text:text,
-        type:type
+        momentId:momentId
       }
     })
   }

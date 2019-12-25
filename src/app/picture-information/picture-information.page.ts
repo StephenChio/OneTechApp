@@ -12,7 +12,7 @@ import { Common } from '../Common/common';
 })
 export class PictureInformationPage implements OnInit {
 
-  constructor(private router:Router,private common: Common, private http: HttpClient, private alertController: AlertController, private actionSheetController: ActionSheetController, private globalVar: globalVar, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private common: Common, private http: HttpClient, private alertController: AlertController, private actionSheetController: ActionSheetController, private globalVar: globalVar, private activatedRoute: ActivatedRoute) { }
   pictures: any;
   picture: any;
   baseUrl: any;
@@ -22,19 +22,23 @@ export class PictureInformationPage implements OnInit {
   page: any;
   text: any;
   pictureId: any;
-  type:any
+  type: any
+  id: any;
+  wechatId: any;
   ngOnInit() {
     this.baseUrl = this.baseUrl = globalVar.baseUrl
     this.activatedRoute.queryParams.subscribe((data: any) => {
+      this.wechatId = data.wechatId;
+      this.id = data.momentId;
       this.pictures = data.pictures;
-      this.picture = data.picture;
+      // this.picture = data.picture;
       this.pictureId = data.pictureId;
       this.text = data.text;
       this.title = data.time;
-      this.type = data.type;
       this.all = this.pictures.length;
       this.page = this.start + "/" + this.all
     });
+
   }
   /**
    * 
@@ -54,15 +58,15 @@ export class PictureInformationPage implements OnInit {
     this.page = this.start + "/" + this.all
     // console.log("prev")
   }
-  selectActionSheet(){
-    if(this.type=="personal"){
+  selectActionSheet() {
+    if (this.wechatId == localStorage.getItem("wechatId")) {
       this.personalActionSheet();
     }
-    else{
+    else {
       this.otherActionSheet();
     }
   }
-  async otherActionSheet(){
+  async otherActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       // header: 'Albums',
       buttons: [{
@@ -85,7 +89,7 @@ export class PictureInformationPage implements OnInit {
         handler: () => {
 
         }
-      },{
+      }, {
         text: '取消',
         // icon: 'close',
         role: 'cancel',
@@ -129,7 +133,7 @@ export class PictureInformationPage implements OnInit {
         text: '删除',
         // icon: 'arrow-dropright-circle',
         handler: () => {
-          this.deleteConfirm()
+          this.deleteConfirm(this.id)
           // console.log('Play clicked');
         }
       }, {
@@ -146,7 +150,7 @@ export class PictureInformationPage implements OnInit {
   /**
    * 删除确认窗口
    */
-  async deleteConfirm() {
+  async deleteConfirm(id:any) {
     const alert = await this.alertController.create({
       message: "与这张照片同时发布的一组照片都会被删除",
       buttons: [
@@ -160,7 +164,7 @@ export class PictureInformationPage implements OnInit {
         }, {
           text: '全部删除',
           handler: () => {
-            this.deleteMomentsPicture()
+            this.deleteMomentsById(id)
           }
         }
       ]
@@ -170,10 +174,9 @@ export class PictureInformationPage implements OnInit {
   /**
    * 删除朋友圈
    */
-  deleteMomentsPicture() {
-    let path = globalVar.baseUrl + "/moments/deleteMomentsPicture"
-
-    const body = new HttpParams().set("pictureId", this.pictureId)
+  deleteMomentsById(id:any) {
+    let path = globalVar.baseUrl+"/moments/deleteMomentsById"
+    const body = new HttpParams().set("id", id)
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -185,5 +188,26 @@ export class PictureInformationPage implements OnInit {
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         });
+  }
+  clickLike() {
+    let path = globalVar.baseUrl + "/comments/clickLike"
+    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId", this.id).set("fWechatId", this.wechatId)
+    let httpOptions = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    this.http.post(path, body, httpOptions)
+      .subscribe(data => {
+        this.common.presentAlert(data["respMsg"])
+      },
+        error => {
+          this.common.presentAlert("服务器繁忙,请重试")
+        });
+  }
+  showDetail() {
+    this.router.navigate(['/moment-information'], {
+      queryParams: {
+        id: this.id,
+      }
+    })
   }
 }

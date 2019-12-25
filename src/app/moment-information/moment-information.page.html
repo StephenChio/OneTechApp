@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="type!=='init'" slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="background: #f4f5f8;">详情</ion-title>
+
+    <ion-buttons *ngIf="fWechatId==wechatId" slot="secondary" style="position: absolute;right: 0rem;"
+      (click)="presentActionSheet()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngFor="let moments of Moments" style="margin-top: 0.5rem;">
+    <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">
+      <ion-item class="box">
+        <img class="fhead" (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath,moments.remarkName)"
+          src="{{baseUrl}}/{{moments.imgPath}}">
+        <div class="context">
+          <ion-card-subtitle *ngIf="moments.remarkName==null" color="primary"
+            (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath)">
+            {{moments.userName}}</ion-card-subtitle>
+
+          <ion-card-subtitle *ngIf="moments.remarkName" color="primary"
+            (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath,moments.remarkName)">
+            {{moments.remarkName}}</ion-card-subtitle>
+          <ion-card-subtitle>
+            {{moments.text}}
+          </ion-card-subtitle>
+          <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
+            <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
+              style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
+              <img
+                (click)="showPicInfo(moments.id,moments.wechatId,moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime)"
+                style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
+            </div>
+          </div>
+          <div style="display: flex;margin-bottom: 0.5rem;">
+            <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
+            <!-- <ion-button color="light" style="position: absolute;right: 1rem;" (click)="showComments(moments.id)">
+                  <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
+                </ion-button> -->
+            <ion-card-subtitle class="delete" color="primary" *ngIf="moments.wechatId==wechatId"
+              (click)="deleteConfirm(moments.id)">删除</ion-card-subtitle>
+
+            <ion-fab horizontal="start" slot="fixed" style="position: absolute;right: 1rem;">
+              <ion-button color="light" style="position: absolute;right: 0rem;">
+                <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
+              </ion-button>
+              <ion-fab-list side="end" style="left: 7rem;margin: 0rem;position: absolute;">
+                <div style="display: flex;">
+                  <ion-item (click)="clickLike(moments.id,moments.wechatId)">
+                    <ion-icon name="heart-empty"></ion-icon>
+                    <ion-label>赞
+                    </ion-label>
+                  </ion-item>
+                  <ion-item (click)="comment(moments.id,moments.wechatId)">
+                    <ion-icon name="text"></ion-icon>
+                    <ion-label>评论
+                    </ion-label>
+                  </ion-item>
+                </div>
+              </ion-fab-list>
+            </ion-fab>
+          </div>
+          <div *ngIf="null !== moments.likeName" style="display: flex;">
+            <ion-icon style="height: 2.3rem;margin-right: 0.25rem;" color="primary" name="heart-empty"></ion-icon>
+            <div *ngFor="let name of moments.likeName">
+              <img style="height: 2rem;width: 2rem;margin: 0.15rem;" src="{{baseUrl}}/{{name.imgPath}}"
+                (click)="showInfo(name.wechatId,name.userName,name.imgPath,name.remarkName)">
+              <!-- <ion-card-subtitle *ngIf="name.remarkName" color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath,name.remarkName)">{{name.remarkName}}</ion-card-subtitle>
+                  <ion-card-subtitle *ngIf="name.remarkName==null" color="primary" style="font-size: 13px;margin-right: 0.5rem;" (click)="showInfo(name.wechatId,name.userName,name.imgPath)">{{name.userName}}</ion-card-subtitle> -->
+            </div>
+          </div>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>
