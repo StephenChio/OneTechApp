@@ -135,4 +135,7 @@ export class MomentInformationPage implements OnInit {
     })
     await actionSheet.present();
   }
+  comment(){
+    this.common.presentAlert("评论功能暂未开放,敬请期待")
+  }
 }

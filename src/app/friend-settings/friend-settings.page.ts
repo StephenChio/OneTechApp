@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { Common } from '../Common/common';
 import { globalVar } from 'src/globalVar';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-friend-settings',
@@ -10,11 +11,32 @@ import { globalVar } from 'src/globalVar';
 })
 export class FriendSettingsPage implements OnInit {
 
-  constructor(private globalVar:globalVar,private http: HttpClient, private common: Common) { }
+  constructor(private actionSheetController:ActionSheetController,private globalVar:globalVar,private http: HttpClient, private common: Common) { }
 
   ngOnInit() {
   }
   isBlack = false;
+  async deleteConfirm() {
+    const actionSheet = await this.actionSheetController.create({
+      // header: 'Albums',
+      buttons: [{
+        text: '确认删除',
+        role: 'destructive',
+        // icon: 'share',
+        handler: () => {
+          this.deleteFriend()
+        }
+      }, {
+        text: '取消',
+        // icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // console.log('Cancel clicked');
+        }
+      }]
+    })
+    await actionSheet.present();
+  }
   /**
    * 删除好友
    */

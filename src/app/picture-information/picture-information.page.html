@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button style="color:white;" defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title style="background: #222428; color:white;">{{title}}</ion-title>
+    <ion-title style="background: #222428; color:white;">{{title}}
+      <p style="margin: 0;font-size: 14px;text-align: center;background: #222428; color:white;opacity: 0.7;">{{page}}</p>
+    </ion-title>
     <ion-buttons slot="secondary" style="position: absolute;right: 0rem;" (click)="selectActionSheet()">
       <ion-button>
         <ion-icon slot="icon-only" style="color:white;" name="more"></ion-icon>
@@ -13,24 +15,26 @@
 </ion-header>
 <ion-content color="dark">
   <div style="margin-top: 3rem;">
-    <p style="margin-bottom: 1rem;text-align: center;background: #222428; color:white;opacity: 0.7;">{{page}}</p>
     <ion-slides (ionSlidePrevEnd)="ionSlidePrevEnd()" (ionSlideNextEnd)="ionSlideNextEnd()">
-      <ion-slide *ngFor="let ps of pictures;index as i">
-        <img src="{{baseUrl}}/{{pictures[i]}}" />
+      <ion-slide style="height: 36rem;" *ngFor="let ps of pictures;index as i">
+          <img style="width: 100%;" src="{{baseUrl}}/{{pictures[i]}}" />
       </ion-slide>
     </ion-slides>
   </div>
 </ion-content>
 
 <ion-footer style="background: #222428;">
-  <p style="margin-bottom: 1rem;color:white;">{{text}}</p>
+  <div style="display: flex;">
+  <p style="margin-left: 1rem;margin-bottom: 1rem;color:white;">{{text.slice(0,10)}}</p>
+  <p style="color:white;" *ngIf="text.length>10">......</p>
+  </div>
   <ion-item color="dark">
     <ion-icon (click)="clickLike()" name="heart-empty"></ion-icon>
-    <ion-label style="max-width: 1rem;">赞</ion-label>
-    <ion-icon name="text"></ion-icon>
-    <ion-label style="max-width: 1rem;">评论</ion-label>
+    <ion-label style="max-width: fit-content;">赞</ion-label>
+    <ion-icon (click)="showDetail()" name="text"></ion-icon>
+    <ion-label style="max-width: fit-content;">评论</ion-label>
 
-     <ion-icon (click)="showDetail()" slot="end" name="heart-empty"></ion-icon>
-     <ion-icon (click)="showDetail()" slot="end" name="text"></ion-icon>
+    <ion-icon (click)="showDetail()" slot="end" name="heart-empty"></ion-icon>
+    <ion-icon (click)="showDetail()" slot="end" name="text"></ion-icon>
   </ion-item>
 </ion-footer>

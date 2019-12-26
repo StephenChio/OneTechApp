@@ -131,6 +131,7 @@ export class PictureInformationPage implements OnInit {
         }
       }, {
         text: '删除',
+        role: 'destructive',
         // icon: 'arrow-dropright-circle',
         handler: () => {
           this.deleteConfirm(this.id)

@@ -28,7 +28,7 @@
           <ion-card-subtitle *ngIf="moments.remarkName" color="primary"
             (click)="showInfo(moments.wechatId,moments.userName,moments.imgPath,moments.remarkName)">
             {{moments.remarkName}}</ion-card-subtitle>
-          <ion-card-subtitle>
+          <ion-card-subtitle style="margin-right: 0.5rem;margin-bottom: 0.5rem;">
             {{moments.text}}
           </ion-card-subtitle>
           <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
@@ -81,3 +81,12 @@
     </div>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+    <ion-item>
+      <ion-input [(ngModel)]="msg" placeholder="评论" clearInput="true"></ion-input>
+      <ion-button (click)="comment()">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-footer>

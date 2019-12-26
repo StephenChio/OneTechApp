@@ -37,8 +37,7 @@
   <ion-list id="friendList">
     <div *ngFor="let l of list">
       <ion-list style="margin: 0 !important;">
-        <p
-          style="font-size: 20px;background: #f4f5f8;margin-top: 0rem;margin-bottom: 0rem;text-indent: 1rem;opacity: 0.7;">
+        <p style="position: sticky;z-index: 1;top: 0;font-size: 20px;background: #f4f5f8;margin-top: 0rem;margin-bottom: 0rem;text-indent: 1rem;">
           {{l}}</p>
         <ion-item-sliding *ngFor="let item of friendLists[l]" (ionDrag)="initStatus()">
           <ion-item [routerLink]="['/friend-card']"
