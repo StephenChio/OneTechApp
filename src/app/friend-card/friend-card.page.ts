@@ -15,20 +15,30 @@ export class FriendCardPage implements OnInit {
   public imgPath: string;
   public type = "添加好友"
   public baseUrl: string;
-  public remarkName:string;
-  public Img4:any;
-  public name:any;
+  public remarkName: string;
+  public Img4: any;
+  public name: any;
+  public flag = true;
   constructor(private globalVar: globalVar, private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private common: Common) { }
 
   ngOnInit() {
+    
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.wechatId = data.wechatId;  //上个页面传过来的值
+      if(localStorage.getItem("wechatId")==this.wechatId){
+        this.flag=false;
+      }
       this.imgPath = data.imgPath;
       // console.log(data.remarkName)
-      if(typeof(data.remarkName)!="undefined"){
+      if (typeof (data.remarkName) != "undefined") {
         this.name = data.remarkName
-        this.userName = data.userName;
-      }else{
+        if (data.remarkName != data.userName) {
+          this.userName = data.userName;
+        }
+        else{
+          this.userName = null
+        }
+      } else {
         this.name = data.userName;
         this.userName = null
       }
@@ -72,7 +82,7 @@ export class FriendCardPage implements OnInit {
     else if (this.type == "发消息") {
       this.router.navigate(['/chat-page'],
         {
-          queryParams: { imgPath: this.imgPath ,name:this.name}
+          queryParams: { imgPath: this.imgPath, name: this.name }
         });
     }
     else {

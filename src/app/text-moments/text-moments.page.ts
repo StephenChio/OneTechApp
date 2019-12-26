@@ -55,6 +55,10 @@ export class TextMomentsPage implements OnInit {
     if (this.text == null || this.text == "" || typeof (this.text) == "undefined") {
       this.text = "";
     }
+    if(this.text.length>=120){
+      this.common.presentAlert("请勿输入超过120个字")
+      return;
+    }
     const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
       .set("text", this.text)
       .set("pictureMoments", this.pictureMoments);
@@ -65,6 +69,7 @@ export class TextMomentsPage implements OnInit {
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
         this.common.presentAlert(data["respMsg"])
+        this.text = "";
         this.router.navigate(['/moments'])
       },
         error => {

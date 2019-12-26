@@ -19,7 +19,8 @@
     }
   
     .head {
-      width: 20%;
+      height: 70px;
+      width: 70px;
       position: absolute;
       left: 75%;
       top: 45%;
@@ -35,16 +36,16 @@
     }
   
     .context {
-      margin-left: 0.75rem;
+      width: 18rem;
+      margin-left: 0.5rem;
       display: flex;
+      margin-right: 0.5rem;
     }
   </style>
   <ion-content>
     <img class="titlePicture" (click)="selectBackground()" src="{{backgroundImg}}">
     <img class="head" src="{{imgPath}}">
     <p style="position: absolute;right: 7rem;top: 22.5rem;color: white;">{{userName}}</p>
-
-
     <div style="position: absolute; top: 60%;">
       <ion-list *ngFor="let moments of Moments" lines="none">
         <div *ngIf="moments.text || moments.pictureImgPath || moments.videoPath">

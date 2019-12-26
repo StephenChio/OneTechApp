@@ -108,7 +108,8 @@
     <!-- 判断消息是发送 -->
     <div *ngIf="wechatId !== message.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
       <div class="chat-sender">
-        <div><img style = "border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
+        <div>
+          <img style = "height: 40px;width: 40px; border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
         <div>
           <div class="chat-left_triangle"></div>
           <span>{{message.msg}}</span>
@@ -119,7 +120,8 @@
     <!-- 判断消息是发送 -->
     <div *ngIf="wechatId === message.wechatId" style="margin-top: 2rem;margin-bottom: 1rem;">
       <div class="chat-receiver">
-        <div><img style = "border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
+        <div>
+          <img style = "height: 40px;width: 40px; border-radius: 5px;" src="{{baseUrl}}/{{message.imgPath}}"></div>
         <div>
           <div class="chat-right_triangle"></div>
           <span>{{message.msg}}</span>

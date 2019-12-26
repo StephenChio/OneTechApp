@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content color="light">
   <ion-item style="--border-width:0">
-      <ion-textarea [(ngModel)]="text" style="margin-bottom: 6rem;"></ion-textarea>
+      <ion-textarea [(ngModel)]="text" style = "height: 10rem;" autoGrow></ion-textarea>
   </ion-item>
   <div *ngIf="pictureMoments" style="display: flex;flex-wrap:wrap">
       <div *ngFor="let pictureImgPath of pictureMoments;index as i" style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:125px;height:125px;">

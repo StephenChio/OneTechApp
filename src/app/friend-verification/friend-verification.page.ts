@@ -27,6 +27,10 @@ export class FriendVerificationPage implements OnInit {
     if(this.verificationMsg==null){
       this.verificationMsg = "";
     }
+    if(this.verificationMsg.length>=30){
+      this.common.presentAlert("请勿输入超过30个字")
+      return;
+    }
     const body = new HttpParams()
       .set("verificationMsg", this.verificationMsg)
       .set("wechatId", localStorage.getItem("wechatId"))

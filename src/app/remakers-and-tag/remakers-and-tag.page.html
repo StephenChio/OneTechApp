@@ -12,7 +12,7 @@
 <ion-content color="light">
   <p style="font-size: 14px;opacity: 0.5;">备注名</p>
   <ion-item style="--border-width:0">
-    <ion-input [(ngModel)]="remarkName"></ion-input>
+    <ion-input clearInput [(ngModel)]="remarkName"></ion-input>
   </ion-item>
 
   <p style="font-size: 14px;opacity: 0.5;">标签</p>
@@ -22,12 +22,12 @@
 
   <p style="font-size: 14px;opacity: 0.5;">电话号码</p>
   <ion-item style="--border-width:0">
-    <ion-input [(ngModel)]="phone"></ion-input>
+    <ion-input clearInput [(ngModel)]="phone"></ion-input>
   </ion-item>
 
 
   <p style="font-size: 14px;opacity: 0.5;">描述</p>
   <ion-item style="--border-width:0">
-    <ion-input [(ngModel)]="describe"></ion-input>
+    <ion-textarea [(ngModel)]="describe" style = "height: 10rem;" autoGrow></ion-textarea>
   </ion-item>
 </ion-content>

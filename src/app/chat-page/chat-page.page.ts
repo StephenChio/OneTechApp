@@ -131,7 +131,7 @@ export class ChatPagePage implements OnInit {
    * 打开聊天消息设置
    */
   chatInfo() {
-    console.log(this.imgPath)
+    // console.log(this.imgPath)
     this.router.navigate(['/chat-info'],
       {
         queryParams: { imgPath: this.imgPath, fUserName: this.fUserName }

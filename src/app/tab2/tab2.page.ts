@@ -19,6 +19,7 @@ export class Tab2Page implements OnInit {
   list = [];
   searchFriendList = [];
   remarklist = [];
+  removeMsg = "删除"
   constructor(private router: Router, private globalVar: globalVar, private http: HttpClient, private common: Common, private ws: WebSocketService) { }
   ngOnInit() {
     var _this = this;
@@ -144,11 +145,29 @@ export class Tab2Page implements OnInit {
           this.common.presentAlert("服务器繁忙,请重试")
         })
   }
+  initStatus(){
+    this.removeMsg="删除"
+  }
+  deleteConfirm(wechatId){
+    if(this.removeMsg=="删除"){
+      this.removeMsg = "确认删除"
+    }
+    else{
+      this.deleteFriend(wechatId)
+    }
+  }
   /**
    * 
    * @param wechatId 移除聊天室
    */
   removeChat(wechatId: any) {
+    var i = -1
+    for (var p in this.searchFriendList) {
+      i = i + 1;
+      if(this.searchFriendList[p].wechatId==wechatId){
+        this.searchFriendList.splice(i,1)
+      }
+    }
     var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
     for (var p in chatsGroup) {
       if (chatsGroup[p].wechatId == wechatId) {
@@ -173,10 +192,13 @@ export class Tab2Page implements OnInit {
       for (var p in this.friendLists[this.list[j]]) {
         if (this.friendLists[this.list[j]][p].remarkName.match(this.searchText) || this.friendLists[this.list[j]][p].userName.match(this.searchText) || this.friendLists[this.list[j]][p].wechatId.match(this.searchText)) {
           this.searchFriendList.push(this.friendLists[this.list[j]][p])
-          break
         }
       }
     }
     // console.log(this.searchFriendList)
+  }
+  ionViewDidLeave() {
+    // console.log("ionViewDidLeave")
+    this.show();
   }
 }

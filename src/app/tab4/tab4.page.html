@@ -11,7 +11,7 @@
 <ion-content color="light">
   <ion-item [routerLink]="['/information-page']">
     <ion-card style="display:flex;box-shadow:0 4px 16px rgba(0,0,0,0);" class="welcome-card">
-      <img class="img" src="{{imgPath}}">
+      <img class="img" src="{{baseUrl}}/{{imgPath}}">
       <ion-card-header>
         <ion-card-title style="margin-bottom: 1rem;">{{userName}}</ion-card-title>
         <ion-card-subtitle>微信号:{{wechatId}}</ion-card-subtitle>

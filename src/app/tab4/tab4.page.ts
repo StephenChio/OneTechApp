@@ -14,13 +14,15 @@ export class Tab4Page implements OnInit {
   userName: string;
   wechatId: string;
   imgPath: string;
+  baseUrl:string;
   ngOnInit() {
+    this.baseUrl = globalVar.baseUrl;
     this.userName = window.localStorage.getItem("userName");
     this.wechatId = window.localStorage.getItem("wechatId");
-    this.imgPath = globalVar.baseUrl+"/"+window.localStorage.getItem("imgPath");
+    this.imgPath = window.localStorage.getItem("imgPath");
   }
   ionViewWillEnter() {
     this.userName = window.localStorage.getItem("userName");
-    this.imgPath = globalVar.baseUrl+"/"+window.localStorage.getItem("imgPath");
+    this.imgPath = window.localStorage.getItem("imgPath");
   }
 }

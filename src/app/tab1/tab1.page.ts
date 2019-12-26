@@ -21,6 +21,8 @@ export class Tab1Page implements OnInit {
   currentPopover = null;
   searchChatList = [];
   searchText: any;
+  removeMsg = "删除"
+  isMark = true;
   ngOnInit() {
     var _this = this
     this.baseUrl = globalVar.baseUrl;
@@ -159,9 +161,16 @@ export class Tab1Page implements OnInit {
   presentPopover() {
     this.popor.presentPopover(PopComponentComponent);
   }
-  ionViewWillLeave() {
-
+  /**
+   * 离开页面时
+   */
+  ionViewDidLeave() {
+    // console.log("ionViewDidLeave")
+    this.show();
   }
+  /**
+   * 将要进入页面时
+   */
   ionViewWillEnter() {
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
   }
@@ -176,11 +185,31 @@ export class Tab1Page implements OnInit {
       event.target.complete();
     }, 1000);
   }
+  initStatus(){
+    this.removeMsg="删除"
+    this.isMark = true
+  }
+  removeConfirm(wechatId){
+    if(this.removeMsg=="删除"){
+      this.removeMsg = "确认删除"
+      this.isMark = false
+    }
+    else{
+      this.removeChat(wechatId)
+    }
+  }
   /**
    * 
    * @param wechatId 移除聊天
    */
-  removeChat(wechatId) {
+  removeChat(wechatId:any) {
+    var i = -1
+    for (var p in this.searchChatList) {
+      i = i + 1;
+      if(this.searchChatList[p].wechatId==wechatId){
+        this.searchChatList.splice(i,1)
+      }
+    }
     this.chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
     for (var p in this.chatsGroup) {
       if (this.chatsGroup[p].wechatId == wechatId) {
