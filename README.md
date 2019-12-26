@@ -1,5 +1,7 @@
 # OneTechApp
 
+OneTechApp是一款仿微信开发的个人练手使用的app 涵盖了微信了许多功能，在线聊天，添加好友，发朋友圈，点赞等等
+
 1.cd OneTechApp
 
 2.安装平台 ionic cordova platform add ios/android
