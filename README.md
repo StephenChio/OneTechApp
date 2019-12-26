@@ -6,5 +6,7 @@
 
 3.在ios虚拟机上运行需要安装Xcode
 
-4.ionic serve || ionic cordova run ios -l 
+4.安装依赖 npm install
+
+5.ionic serve || ionic cordova run ios -l 
 
