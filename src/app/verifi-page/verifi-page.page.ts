@@ -44,7 +44,8 @@ export class VerifiPagePage implements OnInit {
   }
   getVerifiCode() {
     let path = globalVar.baseUrl + "/getVerifiCode"
-    const body = new HttpParams().set("phone", this.phone)
+    const body = new HttpParams()
+      .set("phone", this.phone)
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -84,26 +85,29 @@ export class VerifiPagePage implements OnInit {
       loginType = "password"
     }
     let path = globalVar.baseUrl + "/login"
-    const body = new HttpParams().set("phone", this.phone).set("verifiCode", this.verifiCode).set("password", this.password).set("loginType", loginType)
-
+    const body = new HttpParams()
+      .set("phone", this.phone)
+      .set("verifiCode", this.verifiCode)
+      .set("password", this.password)
+      .set("loginType", loginType)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
         if (data["respCode"] == "00") {
-          var storage = window.localStorage;
+          localStorage.setItem("token", data["token"]);
           var data = data["data"];
           // console.log(data)
           // const user_token = {wechatId:data["wechatId"],time:new Date}
-          storage.setItem("user_token", data["wechatId"]);
-          storage.setItem("userName", data["userName"]);
-          storage.setItem("wechatId", data["wechatId"]);
-          storage.setItem("imgPath", data["imgPath"]);
-          storage.setItem("phone", data["phone"]);
-          storage.setItem("backgroundImg", data["backgroundImg"]);
+          localStorage.setItem("userName", data["userName"]);
+          localStorage.setItem("wechatId", data["wechatId"]);
+          localStorage.setItem("imgPath", data["imgPath"]);
+          localStorage.setItem("phone", data["phone"]);
+          localStorage.setItem("backgroundImg", data["backgroundImg"]);
           // console.log(data);
-          storage.setItem("hasPassword", data["hasPassword"]);
+          localStorage.setItem("hasPassword", data["hasPassword"]);
           if (data["hasPassword"] == false) {
             this.router.navigate(['/set-password'],
               {
@@ -111,8 +115,8 @@ export class VerifiPagePage implements OnInit {
               }
             )
           }
-          else { 
-            this.router.navigate(['/']) 
+          else {
+            this.router.navigate(['/'])
           }
         }
         else {

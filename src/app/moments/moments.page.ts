@@ -70,14 +70,21 @@ export class MomentsPage implements OnInit {
   getMoments() {
     let path = globalVar.baseUrl + "/moments/getMoments"
     this.baseUrl = globalVar.baseUrl;
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // console.log(data["data"])
-        this.Moments = data["data"];
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.Moments = data["data"];
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -89,7 +96,9 @@ export class MomentsPage implements OnInit {
    */
   updateBackgroundImg(backgroundImg: any) {
     let path = globalVar.baseUrl + "/userInfo/updateBackgroundImg"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
       .set("backgroundImg", backgroundImg)
 
     let httpOptions = {
@@ -97,9 +106,15 @@ export class MomentsPage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
-        this.backgroundImg = globalVar.baseUrl + "/" + data["data"].backgroundImg;
-        localStorage.setItem("backgroundImg", data["data"].backgroundImg)
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.common.presentAlert(data["respMsg"])
+          this.backgroundImg = globalVar.baseUrl + "/" + data["data"].backgroundImg;
+          localStorage.setItem("backgroundImg", data["data"].backgroundImg)
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -207,14 +222,22 @@ export class MomentsPage implements OnInit {
    */
   clickLike(momentId: any, wechatId: any) {
     let path = globalVar.baseUrl + "/comments/clickLike"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId", momentId).set("fWechatId", wechatId)
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("momentId", momentId).set("fWechatId", wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // this.common.presentAlert(data["respMsg"])
-        this.getMoments()
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.getMoments()
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -269,14 +292,22 @@ export class MomentsPage implements OnInit {
   }
   deleteMomentsById(id: any) {
     let path = globalVar.baseUrl + "/moments/deleteMomentsById"
-    const body = new HttpParams().set("id", id)
+    const body = new HttpParams()
+      .set("id", id)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // this.common.presentAlert(data["respMsg"])
-        this.getMoments()
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.getMoments()
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

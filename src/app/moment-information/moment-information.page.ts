@@ -16,7 +16,7 @@ export class MomentInformationPage implements OnInit {
   Moments: any
   baseUrl: any
   wechatId: any
-  fWechatId:any
+  fWechatId: any
   ngOnInit() {
     this.baseUrl = globalVar.baseUrl;
     this.wechatId = localStorage.getItem("wechatId");
@@ -44,14 +44,22 @@ export class MomentInformationPage implements OnInit {
   }
   getMomentById(id: any) {
     let path = globalVar.baseUrl + "/moments/getMomentById"
-    const body = new HttpParams().set("id", id).set("wechatId", this.wechatId);
+    const body = new HttpParams().set("id", id)
+      .set("wechatId", this.wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.Moments = data["data"];
-        this.fWechatId = this.Moments[0].wechatId
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.Moments = data["data"];
+          this.fWechatId = this.Moments[0].wechatId
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -59,14 +67,24 @@ export class MomentInformationPage implements OnInit {
   }
   clickLike(momentId: any, wechatId: any) {
     let path = globalVar.baseUrl + "/comments/clickLike"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId", momentId).set("fWechatId", wechatId)
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("momentId", momentId)
+      .set("fWechatId", wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // this.common.presentAlert(data["respMsg"])
-        this.getMomentById(momentId)
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          // this.common.presentAlert(data["respMsg"])
+          this.getMomentById(momentId)
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -98,18 +116,25 @@ export class MomentInformationPage implements OnInit {
   }
   deleteMomentsById(id: any) {
     let path = globalVar.baseUrl + "/moments/deleteMomentsById"
-    const body = new HttpParams().set("id", id)
+    const body = new HttpParams()
+      .set("id", id)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // this.common.presentAlert(data["respMsg"])
-        this.router.navigate(['/friend-moments'], {
-          queryParams: {
-            wechatId: this.wechatId
-          }
-        })
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.router.navigate(['/friend-moments'], {
+            queryParams: {
+              wechatId: this.wechatId
+            }
+          })
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -135,7 +160,7 @@ export class MomentInformationPage implements OnInit {
     })
     await actionSheet.present();
   }
-  comment(){
+  comment() {
     this.common.presentAlert("评论功能暂未开放,敬请期待")
   }
 }

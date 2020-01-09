@@ -13,9 +13,9 @@ import { Common } from '../Common/common';
 })
 export class WriteVerifiCodePage implements OnInit {
 
-  constructor(private alertController:AlertController,private common:Common,private router:Router,private globalVar:globalVar,private http:HttpClient,private actionSheetController:ActionSheetController,private activatedRoute:ActivatedRoute) { }
-  phone:any;
-  verifiCode:any;
+  constructor(private alertController: AlertController, private common: Common, private router: Router, private globalVar: globalVar, private http: HttpClient, private actionSheetController: ActionSheetController, private activatedRoute: ActivatedRoute) { }
+  phone: any;
+  verifiCode: any;
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.phone = data.phone;
@@ -28,9 +28,9 @@ export class WriteVerifiCodePage implements OnInit {
       buttons: [{
         text: 'OK',
         handler: (blah) => {
-          this.router.navigate(['/phone-settings'],{
-            queryParams:{
-              phone:this.phone
+          this.router.navigate(['/phone-settings'], {
+            queryParams: {
+              phone: this.phone
             }
           })
         }
@@ -38,16 +38,24 @@ export class WriteVerifiCodePage implements OnInit {
     });
     await alert.present();
   }
-  changePhoneNum(){
+  changePhoneNum() {
     let path = globalVar.baseUrl + "/userInfo/changePhoneNum"
-    const body = new HttpParams().set("phone", this.phone).set("verifiCode",this.verifiCode).set("wechatId",localStorage.getItem("wechatId"));
+    const body = new HttpParams()
+      .set("phone", this.phone)
+      .set("verifiCode", this.verifiCode)
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        localStorage.setItem("phone",this.phone)
-        this.presentAlert(data["respMsg"]);
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          localStorage.setItem("phone", this.phone)
+        }
+        this.common.presentAlert(data["respMsg"]);
       },
         error => {
           this.common.presentAlert("系统繁忙,请重试");
@@ -62,7 +70,7 @@ export class WriteVerifiCodePage implements OnInit {
         // role: 'destructive',
         // icon: 'trash',
         handler: () => {
-         this.getVerifiCode();
+          this.getVerifiCode();
         }
       }, {
         text: '取消',
@@ -75,14 +83,18 @@ export class WriteVerifiCodePage implements OnInit {
     });
     await actionSheet.present();
   }
-  getVerifiCode(){
+  getVerifiCode() {
     let path = globalVar.baseUrl + "/getVerifiCode"
-    const body = new HttpParams().set("phone", this.phone)
+    const body = new HttpParams()
+      .set("phone", this.phone)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
         this.common.presentAlert(data["respMsg"]);
       },
         error => {

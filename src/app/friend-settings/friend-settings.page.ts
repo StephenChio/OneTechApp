@@ -11,7 +11,7 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class FriendSettingsPage implements OnInit {
 
-  constructor(private actionSheetController:ActionSheetController,private globalVar:globalVar,private http: HttpClient, private common: Common) { }
+  constructor(private actionSheetController: ActionSheetController, private globalVar: globalVar, private http: HttpClient, private common: Common) { }
 
   ngOnInit() {
   }
@@ -41,37 +41,42 @@ export class FriendSettingsPage implements OnInit {
    * 删除好友
    */
   deleteFriend() {
-    let path = globalVar.baseUrl+"/addressList/deleteFriend";
+    let path = globalVar.baseUrl + "/addressList/deleteFriend";
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
       .set("fWechatId", localStorage.getItem("fWechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.removeChat(localStorage.getItem("fWechatId"));
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.removeChat(localStorage.getItem("fWechatId"));
+        }
         this.common.presentAlert(data["respMsg"]);
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试");
         })
   }
-  addBlack(){
-    
+  addBlack() {
+
   }
   /**
    * 移除聊天内容
    * @param wechatId 
    */
-  removeChat(wechatId:any){
-    var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId")+"chats"));
-    for(var p in chatsGroup){
-      if(chatsGroup[p].wechatId == wechatId){
-        chatsGroup.splice(p,1);
+  removeChat(wechatId: any) {
+    var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
+    for (var p in chatsGroup) {
+      if (chatsGroup[p].wechatId == wechatId) {
+        chatsGroup.splice(p, 1);
         // delete this.chatsGroup[p];
         localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup));
-        localStorage.removeItem(localStorage.getItem("wechatId")+wechatId);
+        localStorage.removeItem(localStorage.getItem("wechatId") + wechatId);
       }
     }
   }

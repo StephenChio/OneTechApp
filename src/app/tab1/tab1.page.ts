@@ -43,7 +43,7 @@ export class Tab1Page implements OnInit {
         var resBody = JSON.parse(event.data)
         console.log(resBody);
         if (resBody == "1001") {
-          _this.quit("该账号在别地登陆,如非本人操作,请检查账号或咨询客服");
+          _this.common.quit("该账号在别地登陆,如非本人操作,请检查账号或咨询客服");
         } else {
           var remarkList = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "remarkList"))
           for(var p in remarkList){
@@ -90,24 +90,7 @@ export class Tab1Page implements OnInit {
       }
     }
   }
-  /**
-   * 
-   * @param msg 退出账号
-   */
-  async quit(msg: any) {
-    const alert = await this.alertController.create({
-      header: '确认',
-      message: msg,
-      buttons: [{
-        text: 'OK',
-        handler: (blah) => {
-          localStorage.removeItem("user_token");
-          window.location.href = "login"
-        }
-      }]
-    });
-    await alert.present();
-  }
+
   /**
    * 隐藏界面
    */

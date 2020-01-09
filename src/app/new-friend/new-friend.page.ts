@@ -24,12 +24,19 @@ export class NewFriendPage implements OnInit {
     let path = globalVar.baseUrl + "/addressList/getNewFriend"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.newFriend = data["data"];
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.newFriend = data["data"];
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试");

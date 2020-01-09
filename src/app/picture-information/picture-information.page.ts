@@ -151,7 +151,7 @@ export class PictureInformationPage implements OnInit {
   /**
    * 删除确认窗口
    */
-  async deleteConfirm(id:any) {
+  async deleteConfirm(id: any) {
     const alert = await this.alertController.create({
       message: "与这张照片同时发布的一组照片都会被删除",
       buttons: [
@@ -175,16 +175,22 @@ export class PictureInformationPage implements OnInit {
   /**
    * 删除朋友圈
    */
-  deleteMomentsById(id:any) {
-    let path = globalVar.baseUrl+"/moments/deleteMomentsById"
+  deleteMomentsById(id: any) {
+    let path = globalVar.baseUrl + "/moments/deleteMomentsById"
     const body = new HttpParams().set("id", id)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.router.navigate(['/album'])
+        }
         this.common.presentAlert(data["respMsg"])
-        this.router.navigate(['/album'])
+
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -192,12 +198,17 @@ export class PictureInformationPage implements OnInit {
   }
   clickLike() {
     let path = globalVar.baseUrl + "/comments/clickLike"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("momentId", this.id).set("fWechatId", this.wechatId)
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("momentId", this.id).set("fWechatId", this.wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
         this.common.presentAlert(data["respMsg"])
       },
         error => {

@@ -56,12 +56,14 @@ export class RemakersAndTagPage implements OnInit {
       .set("remarkName", this.remarkName)
       .set("phone", this.phone)
       .set("describe", this.describe)
-
+      .set("token",localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
         this.common.presentAlert(data["respMsg"])
       },
         error => {

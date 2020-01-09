@@ -62,16 +62,19 @@ export class UpdatePicturePage implements OnInit {
               const body = new HttpParams()
                 .set("wechatId", localStorage.getItem("wechatId"))
                 .set("imgPath", "data:image/jpeg;base64," + results)
-
+                .set("token", localStorage.getItem("token"))
               let httpOptions = {
                 headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
               }
               this.http.post(path, body, httpOptions)
                 .subscribe(data => {
-                  alert(data["respMsg"])
-                  this.imgPath = globalVar.baseUrl + "/" + data["data"].imgPath;
-                  // alert(data["data"].imgPath);
-                  localStorage.setItem("imgPath", data["data"].imgPath)
+                  if(data==null)this.common.quit("登陆超时,请重新登陆");
+                  localStorage.setItem("token", data["token"]);
+                  if (data["respCode"] == "00") {
+                    this.imgPath = globalVar.baseUrl + "/" + data["data"].imgPath;
+                    localStorage.setItem("imgPath", data["data"].imgPath)
+                  }
+                  this.common.presentAlert(data["respMsg"])
                 },
                   error => {
                     this.common.presentAlert("服务器繁忙,请重试")

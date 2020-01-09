@@ -150,20 +150,24 @@ export class ChatPagePage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        data = data["data"]["info"].text;
-        this.chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "root001"))
-        // console.log(resBody.wechatId)
-        var body = { wechatId: "root001", imgPath: "img/head.png", msg: data }
-        this.chats.push(body);
-        localStorage.setItem(localStorage.getItem("wechatId") + "root001", JSON.stringify(this.chats))
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          data = data["data"]["info"].text;
+          this.chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "root001"))
+          // console.log(resBody.wechatId)
+          var body = { wechatId: "root001", imgPath: "img/head.png", msg: data }
+          this.chats.push(body);
+          localStorage.setItem(localStorage.getItem("wechatId") + "root001", JSON.stringify(this.chats))
 
-        var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
-        for (var p in chatsGroup) {
-          if (chatsGroup[p].wechatId == "root001") {
-            chatsGroup[p].lastMsg = data
+          var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"))
+          for (var p in chatsGroup) {
+            if (chatsGroup[p].wechatId == "root001") {
+              chatsGroup[p].lastMsg = data
+            }
           }
+          localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup))
         }
-        localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup))
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

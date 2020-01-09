@@ -3,6 +3,7 @@ import { Common } from '../Common/common';
 import { globalVar } from 'src/globalVar';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-set-password',
@@ -11,19 +12,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SetPasswordPage implements OnInit {
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private common: Common, private globalVar: globalVar, private http: HttpClient) { }
+  constructor(private actionSheetController:ActionSheetController,private router: Router, private activatedRoute: ActivatedRoute, private common: Common, private globalVar: globalVar, private http: HttpClient) { }
   wechatId: any;
   oldPwd: any;
   newPwd: any;
   confirmPwd: any;
   disabledClick = true;
-  hasPassword :any;
+  hasPassword: any;
   ngOnInit() {
     this.wechatId = localStorage.getItem("wechatId")
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.hasPassword = data.hasPassword;
     });
-    this.hasPassword =localStorage.getItem("hasPassword")
+    this.hasPassword = localStorage.getItem("hasPassword")
   }
   /**
    * 修改密码
@@ -48,22 +49,32 @@ export class SetPasswordPage implements OnInit {
       return false;
     }
     let path = globalVar.baseUrl + "/userInfo/updatePassword"
-    const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId")).set("oldPwd", this.oldPwd).set("newPwd", this.newPwd).set("hasPassword", this.hasPassword);
+    const body = new HttpParams()
+      .set("wechatId", localStorage.getItem("wechatId"))
+      .set("oldPwd", this.oldPwd).set("newPwd", this.newPwd)
+      .set("hasPassword", this.hasPassword)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.newPwd = null;
-        this.confirmPwd = null;
-        this.oldPwd = null;
-        this.common.presentAlert(data["respMsg"]);
-        if (this.hasPassword == "true") {
-          this.router.navigate(['/'])
-        }
-        else {
-          localStorage.setItem("hasPassword","true")
-          this.router.navigate(['/account-safe'])
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.newPwd = null;
+          this.confirmPwd = null;
+          this.oldPwd = null;
+          this.common.presentAlert(data["respMsg"]);
+          if (this.hasPassword == "true") {
+            this.router.navigate(['/'])
+          }
+          else {
+            localStorage.setItem("hasPassword", "true")
+            this.router.navigate(['/account-safe'])
+          }
+        } else {
+          this.common.presentAlert(data["respMsg"])
         }
       },
         error => {
@@ -83,5 +94,26 @@ export class SetPasswordPage implements OnInit {
       // console.log(true)
       this.disabledClick = true;
     }
+  }
+  async showOptions() {
+    const actionSheet = await this.actionSheetController.create({
+      // header: 'Albums',
+      buttons: [{
+        text: "找回密码",
+        // role: 'destructive',
+        // icon: 'trash',
+        handler: () => {
+          this.common.presentAlert("敬请期待")
+        }
+      }, {
+        text: '取消',
+        // icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 }

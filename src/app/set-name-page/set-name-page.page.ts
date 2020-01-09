@@ -33,12 +33,15 @@ export class SetNamePagePage implements OnInit {
     const body = new HttpParams()
       .set("userName", this.userName)
       .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token",localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
         this.common.presentAlert(data["respMsg"])
+        localStorage.setItem("token", data["token"]);
         localStorage.setItem("userName", data["data"]["userName"]);
       },
         error => {

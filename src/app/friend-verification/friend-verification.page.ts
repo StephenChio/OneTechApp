@@ -10,7 +10,7 @@ import { globalVar } from 'src/globalVar';
 })
 export class FriendVerificationPage implements OnInit {
 
-  constructor(private globalVar:globalVar, private http: HttpClient, private common: Common) { }
+  constructor(private globalVar: globalVar, private http: HttpClient, private common: Common) { }
   verificationMsg: any;
   ngOnInit() { }
   // VerificationConfirm() {
@@ -18,16 +18,16 @@ export class FriendVerificationPage implements OnInit {
   //   this.common.presentAlertConfirm("确认是否发送验证消息",this.sendVerification,this.verificationMsg);
 
   // }
-  
+
   /**
    * 发送好友验证消息
    */
   sendVerification() {
-    let path = globalVar.baseUrl+"/addressList/sendVerification";
-    if(this.verificationMsg==null){
+    let path = globalVar.baseUrl + "/addressList/sendVerification";
+    if (this.verificationMsg == null) {
       this.verificationMsg = "";
     }
-    if(this.verificationMsg.length>=30){
+    if (this.verificationMsg.length >= 30) {
       this.common.presentAlert("请勿输入超过30个字")
       return;
     }
@@ -35,12 +35,19 @@ export class FriendVerificationPage implements OnInit {
       .set("verificationMsg", this.verificationMsg)
       .set("wechatId", localStorage.getItem("wechatId"))
       .set("fWechatId", localStorage.getItem("fWechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.common.presentAlert(data["respMsg"])
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

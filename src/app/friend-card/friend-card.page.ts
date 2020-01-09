@@ -22,11 +22,11 @@ export class FriendCardPage implements OnInit {
   constructor(private globalVar: globalVar, private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private common: Common) { }
 
   ngOnInit() {
-    
+
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.wechatId = data.wechatId;  //上个页面传过来的值
-      if(localStorage.getItem("wechatId")==this.wechatId){
-        this.flag=false;
+      if (localStorage.getItem("wechatId") == this.wechatId) {
+        this.flag = false;
       }
       this.imgPath = data.imgPath;
       // console.log(data.remarkName)
@@ -35,7 +35,7 @@ export class FriendCardPage implements OnInit {
         if (data.remarkName != data.userName) {
           this.userName = data.userName;
         }
-        else{
+        else {
           this.userName = null
         }
       } else {
@@ -61,12 +61,20 @@ export class FriendCardPage implements OnInit {
     let path = globalVar.baseUrl + "/resource/get4MomentsImgByWechatId"
     const body = new HttpParams()
       .set("wechatId", this.wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.Img4 = data["data"]
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.Img4 = data["data"]
+        }
+        else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -97,13 +105,20 @@ export class FriendCardPage implements OnInit {
     let path = globalVar.baseUrl + "/addressList/addConfirm"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
       .set("fWechatId", this.wechatId)
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.common.presentAlert(data["respMsg"])
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

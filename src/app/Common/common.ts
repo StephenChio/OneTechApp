@@ -58,4 +58,22 @@ export class Common {
     }
     return pwd;
   }
+   /**
+   * 
+   * @param msg 退出账号
+   */
+  async quit(msg: any) {
+    const alert = await this.alertController.create({
+      header: '确认',
+      message: msg,
+      buttons: [{
+        text: 'OK',
+        handler: (blah) => {
+          localStorage.removeItem("token");
+          window.location.href = "login"
+        }
+      }]
+    });
+    await alert.present();
+  }
 }

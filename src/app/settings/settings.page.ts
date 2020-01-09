@@ -26,7 +26,7 @@ export class SettingsPage implements OnInit {
         // icon: 'trash',
         handler: () => {
           var storage = window.localStorage;
-          storage.removeItem("user_token");
+          storage.removeItem("token");
           window.location.href = "login"
         }
       }, {

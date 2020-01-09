@@ -55,22 +55,29 @@ export class TextMomentsPage implements OnInit {
     if (this.text == null || this.text == "" || typeof (this.text) == "undefined") {
       this.text = "";
     }
-    if(this.text.length>=120){
+    if (this.text.length >= 120) {
       this.common.presentAlert("请勿输入超过120个字")
       return;
     }
     const body = new HttpParams().set("wechatId", localStorage.getItem("wechatId"))
       .set("text", this.text)
-      .set("pictureMoments", this.pictureMoments);
+      .set("pictureMoments", this.pictureMoments)
+      .set("token", localStorage.getItem("token"))
 
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.common.presentAlert(data["respMsg"])
-        this.text = "";
-        this.router.navigate(['/moments'])
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.text = "";
+          this.common.presentAlert(data["respMsg"])
+          this.router.navigate(['/moments'])
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")

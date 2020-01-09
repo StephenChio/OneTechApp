@@ -17,7 +17,7 @@ export class QuitGuardGuard implements CanActivate {
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     // console.log("123")
-    const token = window.localStorage.getItem('user_token');
+    const token = window.localStorage.getItem('token');
     if (token == null || token === undefined) {
       return true;
     }else{

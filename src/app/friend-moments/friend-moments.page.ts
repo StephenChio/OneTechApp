@@ -32,18 +32,24 @@ export class FriendMomentsPage implements OnInit {
   getFriendMoments(wechatId: any) {
     let path = globalVar.baseUrl + "/moments/getMomentsByWechatId"
 
-    const body = new HttpParams().set("wechatId", wechatId)
+    const body = new HttpParams()
+      .set("wechatId", wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        // console.log(data)
-        this.Moments = data["data"];
-        this.imgPath = globalVar.baseUrl + "/" + data["data"][0].imgPath;
-        this.userName = data["data"][0].userName;
-        this.backgroundImg = globalVar.baseUrl + "/" + data["data"][0].backgroundImg;
-
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.Moments = data["data"];
+          this.imgPath = globalVar.baseUrl + "/" + data["data"][0].imgPath;
+          this.userName = data["data"][0].userName;
+          this.backgroundImg = globalVar.baseUrl + "/" + data["data"][0].backgroundImg;
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
@@ -57,7 +63,7 @@ export class FriendMomentsPage implements OnInit {
    * @param text 
    * @param time 
    */
-  showPicInfo(moment:any) {
+  showPicInfo(moment: any) {
     // console.log(moment.id)
     // console.log(moment.wechatId)
     // console.log(moment.pictureId)

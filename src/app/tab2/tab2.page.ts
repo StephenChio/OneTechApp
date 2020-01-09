@@ -61,11 +61,15 @@ export class Tab2Page implements OnInit {
     let path = globalVar.baseUrl + "/addressList/getFriendList"
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
           var data = data["data"];
           this.friendLists = data;
           // console.log(data)
@@ -75,24 +79,27 @@ export class Tab2Page implements OnInit {
             if (data[String.fromCharCode(65 + i)] != null) {//小写字母97开始
               // console.log(String.fromCharCode(65 + i))
               this.list.push(String.fromCharCode(65 + i))
-              for(var j = 0;j<data[String.fromCharCode(65 + i)].length;j++){
-                if(data[String.fromCharCode(65 + i)][j].remarkName!=null){
+              for (var j = 0; j < data[String.fromCharCode(65 + i)].length; j++) {
+                if (data[String.fromCharCode(65 + i)][j].remarkName != null) {
                   this.remarklist.push(data[String.fromCharCode(65 + i)][j])
                 }
               }
             }
           }
           if (data["#"] != null) {
-            for(var j = 0;j<data["#"].length;j++){
-              if(data["#"][j].remarkName!=null){
+            for (var j = 0; j < data["#"].length; j++) {
+              if (data["#"][j].remarkName != null) {
                 this.remarklist.push(data["#"][j])
               }
             }
             this.list.push("#");
           }
-          localStorage.setItem(localStorage.getItem("wechatId")+"remarkList",JSON.stringify(this.remarklist))
+          localStorage.setItem(localStorage.getItem("wechatId") + "remarkList", JSON.stringify(this.remarklist))
           // console.log(this.list);
-        },
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
+      },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         })
@@ -133,26 +140,33 @@ export class Tab2Page implements OnInit {
     const body = new HttpParams()
       .set("wechatId", localStorage.getItem("wechatId"))
       .set("fWechatId", wechatId)
+      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        this.removeChat(wechatId);
-        this.getFriendList();
+        if(data==null)this.common.quit("登陆超时,请重新登陆");
+        localStorage.setItem("token", data["token"]);
+        if (data["respCode"] == "00") {
+          this.removeChat(wechatId);
+          this.getFriendList();
+        } else {
+          this.common.presentAlert(data["respMsg"])
+        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         })
   }
-  initStatus(){
-    this.removeMsg="删除"
+  initStatus() {
+    this.removeMsg = "删除"
   }
-  deleteConfirm(wechatId){
-    if(this.removeMsg=="删除"){
+  deleteConfirm(wechatId) {
+    if (this.removeMsg == "删除") {
       this.removeMsg = "确认删除"
     }
-    else{
+    else {
       this.deleteFriend(wechatId)
     }
   }
@@ -164,8 +178,8 @@ export class Tab2Page implements OnInit {
     var i = -1
     for (var p in this.searchFriendList) {
       i = i + 1;
-      if(this.searchFriendList[p].wechatId==wechatId){
-        this.searchFriendList.splice(i,1)
+      if (this.searchFriendList[p].wechatId == wechatId) {
+        this.searchFriendList.splice(i, 1)
       }
     }
     var chatsGroup = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "chats"));
@@ -182,7 +196,7 @@ export class Tab2Page implements OnInit {
    * 搜索好友
    */
   searchFriend() {
-    if(this.searchText==""){
+    if (this.searchText == "") {
       return;
     }
     // console.log(this.friendLists)
