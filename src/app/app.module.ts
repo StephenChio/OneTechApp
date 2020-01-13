@@ -16,6 +16,8 @@ import { Common } from './Common/common';
 import { Popover } from './Common/popover';
 import { CommentComponentComponent } from './comment-component/comment-component.component';
 import { QuitGuardGuard } from './guard/quit-guard.guard';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { NativeKeyboard } from '@ionic-native/native-keyboard/ngx';
 @NgModule({
   declarations: [AppComponent,PopComponentComponent,CommentComponentComponent],
   entryComponents: [PopComponentComponent,CommentComponentComponent],
@@ -30,7 +32,9 @@ import { QuitGuardGuard } from './guard/quit-guard.guard';
     ImagePicker,
     globalVar,
     Common,
-    Popover
+    Popover,
+    Keyboard,
+    NativeKeyboard
   ],
   bootstrap: [AppComponent]
 })

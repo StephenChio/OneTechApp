@@ -84,13 +84,13 @@
             </ion-card-subtitle>
             <div *ngIf="null !== moments.pictureImgPath" style="display: flex;flex-wrap:wrap">
               <div *ngFor="let pictureImgPath of moments.pictureImgPath;index as i"
-                style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:90px;height:90px;">
+                style="margin:0.15rem;display:inline-block;width:90px;height:90px;">
                 <img
                   (click)="showPicInfo(moments.id,moments.wechatId,moments.pictureId,moments.pictureImgPath,moments.pictureImgPath[i],moments.text,moments.createTime)"
                   style="width:90px;height:90px;object-fit: cover;" src="{{baseUrl}}/{{moments.pictureImgPath[i]}}">
               </div>
             </div>
-            <div style="display: flex;margin-bottom: 0.5rem;">
+            <div style="display: flex;margin-top: 0.5rem;margin-bottom: 0.5rem;">
               <ion-card-subtitle class="time">{{moments.createTime}}</ion-card-subtitle>
               <!-- <ion-button color="light" style="position: absolute;right: 1rem;" (click)="showComments(moments.id)">
                 <ion-icon slot="icon-only" style="color:black;" name="more"></ion-icon>
@@ -120,14 +120,15 @@
             </div>
             <div *ngIf="null !== moments.likeName" style="display: flex;flex-flow:row wrap">
               <ion-icon style="margin-right: 0.25rem;" color="primary" name="heart-empty"></ion-icon>
-              <div *ngFor="let name of moments.likeName">
+              <div *ngFor="let name of moments.likeName;index as i" style="display: flex;flex-flow:row wrap">
                 <ion-card-subtitle *ngIf="name.remarkName" color="primary"
-                  style="font-size: 13px;margin-right: 0.5rem;width: max-content;"
+                  style="font-size: 13px;width: max-content;"
                   (click)="showInfo(name.wechatId,name.userName,name.imgPath,name.remarkName)">{{name.remarkName}}
                 </ion-card-subtitle>
                 <ion-card-subtitle *ngIf="name.remarkName==null" color="primary"
-                  style="font-size: 13px;margin-right: 0.5rem;width: max-content;"
+                  style="font-size: 13px;width: max-content;"
                   (click)="showInfo(name.wechatId,name.userName,name.imgPath)">{{name.userName}}</ion-card-subtitle>
+                  <ion-card-subtitle *ngIf="moments.likeName[i+1]" style="margin-right: 0.25rem;">,</ion-card-subtitle>
               </div>
             </div>
           </div>

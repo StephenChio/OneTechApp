@@ -72,7 +72,7 @@ export class VerifiPagePage implements OnInit {
     let loginType = null;
     if (this.useVerifiCode) {
       if (this.verifiCode == null || this.verifiCode.length !== 6) {
-        this.common.presentAlert("请正确填写二维码")
+        this.common.presentAlert("请正确填写验证码")
         return;
       }
       loginType = "verifiCode"
@@ -90,7 +90,6 @@ export class VerifiPagePage implements OnInit {
       .set("verifiCode", this.verifiCode)
       .set("password", this.password)
       .set("loginType", loginType)
-      .set("token", localStorage.getItem("token"))
     let httpOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }

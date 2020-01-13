@@ -69,6 +69,14 @@ export class Common {
       buttons: [{
         text: 'OK',
         handler: (blah) => {
+          localStorage.removeItem("backgroundImg");
+          localStorage.removeItem("fUserName");
+          localStorage.removeItem("fWechatId");
+          localStorage.removeItem("hasPassword");
+          localStorage.removeItem("imgPath");
+          localStorage.removeItem("phone");
+          localStorage.removeItem("userName");
+          localStorage.removeItem("wechatId");
           localStorage.removeItem("token");
           window.location.href = "login"
         }

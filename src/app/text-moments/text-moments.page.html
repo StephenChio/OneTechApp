@@ -15,7 +15,7 @@
       <ion-textarea [(ngModel)]="text" style = "height: 10rem;" autoGrow></ion-textarea>
   </ion-item>
   <div *ngIf="pictureMoments" style="display: flex;flex-wrap:wrap">
-      <div *ngFor="let pictureImgPath of pictureMoments;index as i" style="margin-left: 0.25rem;margin-right: 0.25rem;display:inline-block;width:125px;height:125px;">
+      <div *ngFor="let pictureImgPath of pictureMoments;index as i" style="margin:0.15rem;display:inline-block;width:125px;height:125px;">
           <img style="width:125px;height:125px;object-fit: cover;"src="data:image/jpeg;base64,{{pictureMoments[i]}}">
       </div>
   </div>

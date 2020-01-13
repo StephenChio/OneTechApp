@@ -25,7 +25,8 @@ body{
     padding: 10px 10px 10px 10px;
     border-radius:7px;
     text-indent: -12px;
-    // width: fit-content;
+    max-width: 16rem;
+    width: fit-content;
   }
 
   .chat-receiver{
@@ -44,12 +45,13 @@ body{
 //     text-align: right;
 //   }
   .chat-receiver div:nth-of-type(2){
-    /*float:right;*/
+    float:right;
     background-color: #b2e281;
-    margin: 0px 50px 10px 50px;
+    margin: 0px 10px 10px 0px;
     padding: 10px 10px 10px 10px;
     border-radius:7px;
-    // width: fit-content;
+    max-width: 16rem;
+    width: fit-content;
   }
 
   .chat-receiver div:first-child img,

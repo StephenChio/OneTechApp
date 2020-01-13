@@ -4,7 +4,7 @@ import { WebSocketService } from '../websocket/websocket';
 import { Common } from '../Common/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { globalVar } from 'src/globalVar';
-
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.page.html',
@@ -12,7 +12,7 @@ import { globalVar } from 'src/globalVar';
 })
 export class ChatPagePage implements OnInit {
 
-  constructor(private globalVar: globalVar, private router: Router, private http: HttpClient, private ws: WebSocketService, private common: Common, private activatedRoute: ActivatedRoute) { }
+  constructor(private Keyboard:Keyboard,private globalVar: globalVar, private router: Router, private http: HttpClient, private ws: WebSocketService, private common: Common, private activatedRoute: ActivatedRoute) { }
   fUserName: any;
   wechatId: any;
   fWechatId: any;
@@ -122,7 +122,9 @@ export class ChatPagePage implements OnInit {
         return;
       }
       else {
+        if(this.fWechatId!=this.wechatId){
         this.websocket.send(JSON.stringify(sendBody))
+        }
         this.msg = ""
       }
     }
@@ -150,9 +152,6 @@ export class ChatPagePage implements OnInit {
     }
     this.http.post(path, body, httpOptions)
       .subscribe(data => {
-        if(data==null)this.common.quit("登陆超时,请重新登陆");
-        localStorage.setItem("token", data["token"]);
-        if (data["respCode"] == "00") {
           data = data["data"]["info"].text;
           this.chats = JSON.parse(localStorage.getItem(localStorage.getItem("wechatId") + "root001"))
           // console.log(resBody.wechatId)
@@ -167,10 +166,17 @@ export class ChatPagePage implements OnInit {
             }
           }
           localStorage.setItem(localStorage.getItem("wechatId") + "chats", JSON.stringify(chatsGroup))
-        }
       },
         error => {
           this.common.presentAlert("服务器繁忙,请重试")
         });
   }
+  // KeyboardShow(){
+  //   // this.Keyboard.show();
+  //   var inputElement = document.getElementById("send");
+  //   inputElement.focus();
+  // }
+  // KeyboardHide(){
+  //   this.Keyboard.hide();
+  // }
 }

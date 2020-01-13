@@ -133,7 +133,8 @@
 
 <ion-footer>
   <ion-item>
-    <ion-input [(ngModel)]="msg" placeholder="Send a message..." clearInput="true"></ion-input>
+     <!-- (ionBlur)="KeyboardHide()" (ionFocus)="KeyboardShow()"-->
+    <ion-input id = "send"  [(ngModel)]="msg" placeholder="Send a message..." clearInput="true"></ion-input>
     <ion-button (click)="sendMsg()">
       <ion-icon slot="icon-only" name="send"></ion-icon>
     </ion-button>
