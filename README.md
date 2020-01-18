@@ -2,6 +2,25 @@
 
 OneTechApp是一款仿微信开发的个人练手使用的app 涵盖了微信了许多功能，在线聊天，添加好友，发朋友圈，点赞等等
 
+预览:
+
+登陆使用测试账号: 13900000000 密码登陆: 123456
+
+![Image](https://github.com/StephenChio/img-folder/blob/master/5.png)
+
+朋友信息
+
+![Image](https://github.com/StephenChio/img-folder/blob/master/6.png)
+
+通讯录
+
+![Image](https://github.com/StephenChio/img-folder/blob/master/7.png)
+
+朋友圈信息
+
+![Image](https://github.com/StephenChio/img-folder/blob/master/8.png)
+
+
 事先准备:
 
 一.安装Visual Studio Code 
@@ -27,6 +46,8 @@ npm install -g cordova ionic
 3.安装平台 ionic cordova platform add ios/android（如果在ios虚拟机上运行需要安装Xcode）建议使用IOS平台,此程序有IOS适应，使用安卓平台可能会导致样式问题。
 
 4.普通运行 ionic serve 后打开浏览器，输入localhost:8100
+
+![Image](https://github.com/StephenChio/img-folder/blob/master/4.png)
 
 5.虚拟机运行（需要分别安装安卓或苹果虚拟机，这里不做详细教程）
 
